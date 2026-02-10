@@ -25,11 +25,20 @@ body {
     font-size: clamp(12px, 2vw, 26px);
     padding: clamp(5px, 0.5vw, 10px) clamp(10px, 2vw, 30px);
     margin-top: 0;
-    background-color: white;
+    background: url('Bilder/bild1.jpg') center 40%/120% no-repeat;
     position: sticky;
     top: 0;
     z-index: 100;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    isolation: isolate;
+}
+
+.navbar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.55);
+    z-index: -1;
 }
 
 .logo-img {
