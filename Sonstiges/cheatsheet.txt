@@ -1,0 +1,1025 @@
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║          SPONSOR A SMILE – CHEAT SHEET & LERNHILFE                         ║
+║          HTML, CSS & JavaScript für Anfänger                                ║
+║          Erstellt für: Nesimi, Friedrich & Aladin                           ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+INHALTSVERZEICHNIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1.  HTML-Grundstruktur
+  2.  Navigation (Navbar) bauen
+  3.  Hamburger-Menü (Mobil)
+  4.  Hero-Section (großer Startbereich)
+  5.  Buttons gestalten
+  6.  Sections & Layout mit CSS Grid
+  7.  Karten (Cards) erstellen
+  8.  Dark Mode – Farben & Variablen
+  9.  Animationen (Fade-in, Hover, Scroll)
+ 10.  Responsive Design (Mobile/Tablet/Desktop)
+ 11.  JavaScript – wichtige Funktionen
+ 12.  Alle Texte & Sprüche für die Website
+ 13.  Nützliche CSS-Tricks
+ 14.  Ordnerstruktur & Hosting-Tipps
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. HTML-GRUNDSTRUKTUR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Jede HTML-Seite braucht dieses Grundgerüst:
+
+    <!DOCTYPE html>
+    <html lang="de">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Seitentitel</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+
+        <!-- Hier kommt der Inhalt -->
+
+        <script src="js/main.js"></script>
+    </body>
+    </html>
+
+ERKLÄRUNG:
+  • <!DOCTYPE html>         → Sagt dem Browser: "Das ist HTML5"
+  • <html lang="de">        → Sprache auf Deutsch setzen
+  • <meta charset="UTF-8">  → Damit Umlaute (ä, ö, ü) funktionieren
+  • <meta viewport ...>     → Damit die Seite auf Handys richtig aussieht
+  • <link rel="stylesheet"> → Verbindet die CSS-Datei (Design)
+  • <script src="...">      → Verbindet die JavaScript-Datei (am Ende von body!)
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2. NAVIGATION (NAVBAR) BAUEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SCHRITT 1: HTML-Struktur der Navigation
+────────────────────────────────────────
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+
+            <!-- Logo (links) -->
+            <a href="#hero" class="nav-logo">
+                <span class="logo-icon">🎓</span>
+                <span class="logo-text">Sponsor a Smile</span>
+            </a>
+
+            <!-- Menü-Links (rechts) -->
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#hero" class="nav-link active">Start</a></li>
+                <li><a href="#bildung" class="nav-link">Bildung</a></li>
+                <li><a href="#stimmen" class="nav-link">Stimmen</a></li>
+                <li><a href="#spenden" class="nav-link">Helfen</a></li>
+                <li><a href="#wirkung" class="nav-link">Wirkung</a></li>
+                <li><a href="#ueber-uns" class="nav-link">Über uns</a></li>
+            </ul>
+
+            <!-- Hamburger-Button (nur mobil sichtbar) -->
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+        </div>
+    </nav>
+
+ERKLÄRUNG:
+  • <nav>               → Semantisches HTML-Element für Navigation
+  • class="navbar"      → CSS-Klasse, über die wir das Design steuern
+  • id="navbar"         → ID für JavaScript (damit wir es ansprechen können)
+  • href="#bildung"     → Link zu einer Section mit id="bildung"  (Anker-Link)
+  • class="active"      → Markiert den aktuell ausgewählten Link
+
+
+SCHRITT 2: CSS für die Navigation
+──────────────────────────────────
+
+    /* Navbar fixiert oben am Bildschirm */
+    .navbar {
+        position: fixed;        /* bleibt oben beim Scrollen */
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 72px;
+        z-index: 1000;          /* liegt über allem anderen */
+        transition: background 0.35s ease;
+    }
+
+    /* Wenn man scrollt → Hintergrund wird sichtbar */
+    .navbar.scrolled {
+        background: rgba(10, 10, 10, 0.85);    /* halbtransparentes Schwarz */
+        backdrop-filter: blur(20px);             /* Unschärfe-Effekt dahinter */
+        box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+WAS PASSIERT HIER?
+  • position: fixed   → Die Navbar klebt oben am Bildschirm
+  • z-index: 1000     → Sie liegt über allen anderen Elementen
+  • rgba(10,10,10,0.85) → Schwarz mit 85% Deckkraft (leicht durchsichtig)
+  • backdrop-filter: blur → Der Glaseffekt (wie bei Apple-Websites!)
+  • transition         → Sanfter Übergang beim Erscheinen
+
+
+    /* Container in der Navbar: Logo links, Links rechts */
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;           /* zentriert den Inhalt */
+        padding: 0 24px;
+        height: 100%;
+        display: flex;             /* Flexbox! */
+        align-items: center;       /* vertikal zentriert */
+        justify-content: space-between;  /* Logo links, Menü rechts */
+    }
+
+WICHTIG – FLEXBOX ERKLÄRT:
+  • display: flex            → Macht das Element zu einem Flex-Container
+  • align-items: center      → Kinder vertikal zentrieren
+  • justify-content: space-between → Platz zwischen den Kindern verteilen
+                                     (erstes Element links, letztes rechts)
+
+
+    /* Die Menü-Links nebeneinander */
+    .nav-menu {
+        display: flex;
+        align-items: center;
+        gap: 8px;               /* Abstand zwischen den Links */
+        list-style: none;       /* Aufzählungszeichen entfernen */
+    }
+
+    /* Einzelner Link */
+    .nav-link {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #b0b0b0;         /* Grau */
+        border-radius: 8px;
+        transition: color 0.35s, background 0.35s;
+        text-decoration: none;  /* Unterstrich entfernen */
+    }
+
+    /* Hover-Effekt (wenn Maus drüber) */
+    .nav-link:hover {
+        color: #ffffff;         /* Weiß */
+    }
+
+    /* Aktiver Link */
+    .nav-link.active {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3. HAMBURGER-MENÜ (MOBIL)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Auf dem Handy verstecken wir die Links und zeigen stattdessen einen
+Hamburger-Button (☰). Beim Klick öffnet sich ein Fullscreen-Menü.
+
+CSS FÜR DEN HAMBURGER-BUTTON:
+
+    /* Hamburger-Button: 3 Striche */
+    .nav-toggle {
+        display: none;             /* Auf Desktop versteckt! */
+        flex-direction: column;
+        gap: 5px;
+        width: 28px;
+        height: 28px;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* Die 3 Striche */
+    .nav-toggle span {
+        width: 100%;
+        height: 2px;
+        background: white;
+        border-radius: 2px;
+        transition: transform 0.35s, opacity 0.35s;
+    }
+
+    /* Animation: Hamburger → X */
+    .nav-toggle.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);    /* ╲ nach unten+drehen */
+    }
+    .nav-toggle.active span:nth-child(2) {
+        opacity: 0;                                   /* mittlerer Strich verschwindet */
+    }
+    .nav-toggle.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);  /* ╱ nach oben+drehen */
+    }
+
+CSS FÜR MOBILES MENÜ (ab 768px):
+
+    @media (max-width: 768px) {
+
+        .nav-toggle {
+            display: flex;          /* Hamburger-Button zeigen */
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;   /* Fullscreen! */
+            background: rgba(10, 10, 10, 0.97);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s, visibility 0.35s;
+        }
+
+        .nav-menu.active {
+            opacity: 1;
+            visibility: visible;    /* Menü einblenden */
+        }
+    }
+
+JAVASCRIPT FÜR DAS HAMBURGER-MENÜ:
+
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+
+    navToggle.addEventListener("click", function() {
+        navToggle.classList.toggle("active");  // Button-Animation
+        navMenu.classList.toggle("active");    // Menü ein/ausblenden
+    });
+
+WAS BEDEUTET classList.toggle()?
+  → Wenn die Klasse "active" NICHT da ist → wird sie HINZUGEFÜGT
+  → Wenn die Klasse "active" DA ist → wird sie ENTFERNT
+  → Wie ein Lichtschalter: an/aus!
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4. HERO-SECTION (GROSSER STARTBEREICH)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Die Hero-Section ist der erste große Bereich, den Besucher sehen.
+Volle Bildschirmhöhe, großer Text, Buttons.
+
+HTML:
+
+    <header class="hero" id="hero">
+        <div class="hero-content">
+            <p class="hero-tag">SDG 4 – Hochwertige Bildung</p>
+            <h1 class="hero-title">
+                Bildung entscheidet über
+                <span class="text-accent">Zukunft.</span>
+                Nicht über Herkunft.
+            </h1>
+            <p class="hero-quote">
+                „Der beste Weg aus der Armut ist der Schulweg."
+            </p>
+            <div class="hero-buttons">
+                <a href="#bildung" class="btn btn-primary">Warum Bildung Leben verändert</a>
+                <a href="#spenden" class="btn btn-secondary">Jetzt helfen</a>
+            </div>
+        </div>
+    </header>
+
+CSS:
+
+    .hero {
+        min-height: 100vh;          /* volle Bildschirmhöhe */
+        display: flex;
+        align-items: center;        /* vertikal zentriert */
+        justify-content: center;    /* horizontal zentriert */
+    }
+
+    .hero-content {
+        text-align: center;
+        padding: 0 24px;
+        max-width: 900px;
+    }
+
+    .hero-title {
+        font-size: clamp(2.5rem, 6vw, 5rem);   /* responsive Schriftgröße! */
+        font-weight: 800;
+        line-height: 1.1;
+    }
+
+WAS IST clamp()?
+  → clamp(MINIMUM, BEVORZUGT, MAXIMUM)
+  → clamp(2.5rem, 6vw, 5rem) bedeutet:
+    - mindestens 2.5rem (40px)
+    - bevorzugt 6vw (6% der Bildschirmbreite)
+    - maximal 5rem (80px)
+  → Die Schrift passt sich automatisch an! 🎉
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5. BUTTONS GESTALTEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+WIR HABEN 2 BUTTON-TYPEN:
+
+1. PRIMARY (ausgefüllt, grün):
+2. SECONDARY (durchsichtig, mit Rand):
+
+HTML:
+    <a href="#bildung" class="btn btn-primary">Warum Bildung Leben verändert</a>
+    <a href="#spenden" class="btn btn-secondary">Jetzt helfen</a>
+
+CSS:
+
+    /* Basis-Button (beide Typen) */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 16px 32px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 50px;           /* macht ihn rund (pill-shape) */
+        cursor: pointer;
+        transition: all 0.35s ease;
+        border: none;
+        text-decoration: none;
+    }
+
+    /* Primary Button: Grüner Hintergrund */
+    .btn-primary {
+        background: #00c896;            /* Grün */
+        color: #0a0a0a;                 /* Dunkler Text */
+        box-shadow: 0 4px 20px rgba(0, 200, 150, 0.25);  /* grüner Schein */
+    }
+
+    .btn-primary:hover {
+        background: #00e6ac;            /* heller beim Hover */
+        transform: translateY(-2px);    /* schwebt 2px nach oben */
+        box-shadow: 0 6px 30px rgba(0, 200, 150, 0.35);
+    }
+
+    /* Secondary Button: Durchsichtig mit Rand */
+    .btn-secondary {
+        background: transparent;
+        color: white;
+        border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .btn-secondary:hover {
+        border-color: #00c896;
+        color: #00c896;
+        transform: translateY(-2px);
+    }
+
+TIPP: transform: translateY(-2px) lässt den Button beim Hover
+      leicht "schweben" – sieht sehr professionell aus!
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6. SECTIONS & LAYOUT MIT CSS GRID
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Jede Section hat die gleiche Grundstruktur:
+
+HTML:
+    <section class="section" id="bildung">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">SDG 4</span>
+                <h2 class="section-title">Hochwertige Bildung</h2>
+                <p class="section-subtitle">Beschreibungstext hier...</p>
+            </div>
+            <!-- Inhalt der Section -->
+        </div>
+    </section>
+
+CSS:
+    .section {
+        padding: 120px 0;          /* oben und unten 120px Abstand */
+    }
+
+    .container {
+        max-width: 1200px;         /* maximal 1200px breit */
+        margin: 0 auto;           /* zentriert */
+        padding: 0 24px;          /* Seitenabstand */
+    }
+
+CSS GRID FÜR KARTEN-LAYOUTS:
+
+    /* 4 Karten nebeneinander */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);   /* 4 gleich breite Spalten */
+        gap: 24px;                                 /* Abstand zwischen Karten */
+    }
+
+    /* 3 Karten nebeneinander */
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+    }
+
+    /* 2 Karten nebeneinander */
+    .quotes-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+    }
+
+GRID ERKLÄRT:
+  • display: grid                       → Macht einen Grid-Container
+  • grid-template-columns: repeat(4, 1fr) → 4 gleich breite Spalten
+  • 1fr = 1 Fraction (1 Anteil des verfügbaren Platzes)
+  • gap: 24px                           → Abstand zwischen den Zellen
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+7. KARTEN (CARDS) ERSTELLEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Karten (Cards) sind überall auf der Website. So baut man eine:
+
+HTML:
+    <div class="stat-card">
+        <div class="stat-number">258</div>
+        <div class="stat-unit">Millionen</div>
+        <div class="stat-label">Kinder besuchen keine Schule</div>
+    </div>
+
+CSS:
+    .stat-card {
+        background: #141414;                    /* dunkler Hintergrund */
+        border: 1px solid rgba(255,255,255,0.06);  /* sehr feiner heller Rand */
+        border-radius: 16px;                    /* abgerundete Ecken */
+        padding: 36px 28px;                     /* Innenabstand */
+        text-align: center;
+        transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+    }
+
+    /* Hover-Effekt */
+    .stat-card:hover {
+        transform: translateY(-4px);            /* schwebt nach oben */
+        border-color: #00c896;                  /* grüner Rand */
+        box-shadow: 0 0 40px rgba(0,200,150,0.1);  /* grüner Schein */
+    }
+
+KARTEN-REZEPT (für jede Art von Karte):
+  1. background: dunkle Farbe
+  2. border: feiner, fast unsichtbarer Rand
+  3. border-radius: abgerundete Ecken (16px sieht modern aus)
+  4. padding: Innenabstand
+  5. transition: für sanfte Hover-Animationen
+  6. :hover → transform + box-shadow für den "Schwebe-Effekt"
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+8. DARK MODE – FARBEN & CSS-VARIABLEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CSS-Variablen speichern Farben an einem Ort. Wenn du eine Farbe
+ändern willst, änderst du sie NUR EINMAL und sie ändert sich überall!
+
+    :root {
+        /* Hintergründe */
+        --bg-primary: #0a0a0a;         /* Haupthintergrund (fast schwarz) */
+        --bg-secondary: #101010;       /* Abwechselnde Sections */
+        --bg-card: #141414;            /* Karten-Hintergrund */
+
+        /* Textfarben */
+        --text-primary: #ffffff;       /* Haupttext (weiß) */
+        --text-secondary: #b0b0b0;    /* Beschreibungstext (grau) */
+        --text-muted: #666666;        /* Unwichtiger Text (dunkelgrau) */
+
+        /* Akzentfarbe (GRÜN) */
+        --accent: #00c896;             /* Hauptgrün */
+        --accent-light: #00e6ac;       /* Helleres Grün (Hover) */
+
+        /* Ränder */
+        --border: rgba(255,255,255,0.06);  /* Fast unsichtbarer Rand */
+    }
+
+BENUTZUNG:
+    .element {
+        color: var(--accent);           /* Statt #00c896 schreibst du var(--accent) */
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+    }
+
+UNSERE FARBPALETTE:
+  ┌──────────────────────────────────────┐
+  │  #0a0a0a  ██████  Hintergrund       │
+  │  #101010  ██████  Section-Wechsel   │
+  │  #141414  ██████  Karten            │
+  │  #1c1c1c  ██████  Karten-Hover      │
+  │  #666666  ██████  Gedämpfter Text   │
+  │  #b0b0b0  ██████  Sekundärtext      │
+  │  #ffffff  ██████  Haupttext         │
+  │  #00c896  ██████  Akzent (Grün)     │
+  │  #0099dd  ██████  Akzent (Blau)     │
+  └──────────────────────────────────────┘
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+9. ANIMATIONEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+A) HOVER-ANIMATION (CSS only)
+──────────────────────────────
+
+    .karte {
+        transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .karte:hover {
+        transform: translateY(-4px);         /* 4px nach oben schweben */
+        box-shadow: 0 0 40px rgba(0,200,150,0.1);
+    }
+
+    → transition sagt: "Ändere dich sanft über 0.35 Sekunden"
+    → :hover ist der Zustand wenn die Maus drüber ist
+
+
+B) FADE-IN BEIM LADEN (CSS @keyframes)
+────────────────────────────────────────
+
+    /* Definiere die Animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;                      /* unsichtbar */
+            transform: translateY(24px);     /* 24px weiter unten */
+        }
+        to {
+            opacity: 1;                      /* sichtbar */
+            transform: translateY(0);        /* normale Position */
+        }
+    }
+
+    /* Wende sie an */
+    .fade-in {
+        opacity: 0;
+        animation: fadeInUp 0.8s ease forwards;  /* forwards = bleibt am Ende */
+    }
+
+    /* Verzögerung für gestaffeltes Erscheinen */
+    .delay-1 { animation-delay: 0.2s; }
+    .delay-2 { animation-delay: 0.4s; }
+    .delay-3 { animation-delay: 0.6s; }
+
+
+C) SCROLL-REVEAL (CSS + JavaScript)
+─────────────────────────────────────
+
+CSS – Elemente sind zunächst unsichtbar:
+
+    .reveal {
+        opacity: 0;
+        transform: translateY(32px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+JavaScript – Intersection Observer erkennt wenn Element sichtbar wird:
+
+    // Alle Elemente mit class="reveal" auswählen
+    const elements = document.querySelectorAll(".reveal");
+
+    // Observer erstellen
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");  // Klasse hinzufügen!
+                observer.unobserve(entry.target);       // Nicht nochmal beobachten
+            }
+        });
+    }, { threshold: 0.1 });   // 10% sichtbar = auslösen
+
+    // Beobachtung starten
+    elements.forEach((el) => {
+        observer.observe(el);
+    });
+
+WIE FUNKTIONIERT DAS?
+  1. Element hat class="reveal" → ist unsichtbar (opacity: 0)
+  2. Der Observer beobachtet jedes reveal-Element
+  3. Wenn es in den Viewport scrollt → fügt "visible" hinzu
+  4. CSS-Transition macht es sanft sichtbar
+  → Das ist der "Fade-in beim Scrollen" Effekt! ✨
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+10. RESPONSIVE DESIGN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+"Responsive" heißt: Die Website passt sich an die Bildschirmgröße an.
+
+DAS PRINZIP: @media Queries
+────────────────────────────
+
+    /* Standard = Desktop (breit) */
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr);   /* 4 Spalten */
+    }
+
+    /* Tablet (unter 1024px) */
+    @media (max-width: 1024px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);   /* 2 Spalten */
+        }
+    }
+
+    /* Handy (unter 768px) */
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: 1fr;              /* 1 Spalte */
+        }
+    }
+
+BREAKPOINTS (Umschaltpunkte):
+  • > 1024px    → Desktop (Standard)
+  • ≤ 1024px    → Tablet
+  • ≤ 768px     → Handy
+  • ≤ 480px     → Kleines Handy
+
+WICHTIGE RESPONSIVE-TIPPS:
+  1. Immer <meta name="viewport" ...> im HTML-Head!
+  2. Bilder: max-width: 100%  (nie breiter als Container)
+  3. Font-Size: clamp() benutzen
+  4. Padding/Margin auf Handy kleiner machen
+  5. Grid-Spalten reduzieren (4 → 2 → 1)
+  6. Hamburger-Menü statt horizontaler Links
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+11. JAVASCRIPT – WICHTIGE FUNKTIONEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+A) ELEMENT FINDEN
+──────────────────
+    const element = document.getElementById("navbar");
+    const links = document.querySelectorAll(".nav-link");
+
+    → getElementById()      → findet EIN Element per ID
+    → querySelectorAll()    → findet ALLE Elemente per CSS-Selektor
+
+
+B) EVENT LISTENER (auf Klick reagieren)
+────────────────────────────────────────
+    button.addEventListener("click", function() {
+        // Das passiert beim Klick
+        console.log("Klick!");
+    });
+
+
+C) KLASSE HINZUFÜGEN / ENTFERNEN
+──────────────────────────────────
+    element.classList.add("scrolled");      // Klasse hinzufügen
+    element.classList.remove("scrolled");   // Klasse entfernen
+    element.classList.toggle("active");     // Umschalten (an/aus)
+    element.classList.contains("active");   // Prüfen: ist Klasse da?
+
+
+D) SCROLL-POSITION PRÜFEN
+──────────────────────────
+    window.addEventListener("scroll", function() {
+        if (window.scrollY > 50) {
+            navbar.classList.add("scrolled");
+        } else {
+            navbar.classList.remove("scrolled");
+        }
+    });
+
+    → window.scrollY = wie viele Pixel nach unten gescrollt wurde
+
+
+E) SMOOTH SCROLL ZU ANKER
+──────────────────────────
+    // Alle Links mit # finden
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+        link.addEventListener("click", function(e) {
+            e.preventDefault();   // Standard-Verhalten verhindern
+            const ziel = document.querySelector(this.getAttribute("href"));
+            ziel.scrollIntoView({ behavior: "smooth" });
+        });
+    });
+
+
+F) ZÄHLER-ANIMATION
+─────────────────────
+    function zaehlerAnimation(element, zielwert) {
+        let aktuell = 0;
+        const dauer = 2000;  // 2 Sekunden
+        const schritte = 60;
+        const inkrement = zielwert / schritte;
+
+        const interval = setInterval(function() {
+            aktuell += inkrement;
+            if (aktuell >= zielwert) {
+                element.textContent = zielwert;
+                clearInterval(interval);
+            } else {
+                element.textContent = Math.floor(aktuell);
+            }
+        }, dauer / schritte);
+    }
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+12. ALLE TEXTE & SPRÜCHE FÜR DIE WEBSITE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+──────────────────
+HERO-SECTION
+──────────────────
+
+  Tagline:
+    „SDG 4 – Hochwertige Bildung"
+
+  Hauptüberschrift:
+    „Bildung entscheidet über Zukunft. Nicht über Herkunft."
+
+  Leitsatz:
+    „Der beste Weg aus der Armut ist der Schulweg."
+
+  Button 1: „Warum Bildung Leben verändert"
+  Button 2: „Jetzt helfen"
+
+
+──────────────────
+SDG 4 – BILDUNG
+──────────────────
+
+  Section-Tag: „SDG 4"
+  Titel: „Hochwertige Bildung"
+  Untertitel: „Bildung ist ein Menschenrecht – doch für Millionen Kinder
+               weltweit bleibt es unerreichbar."
+
+  Erklärung SDG 4:
+    „Das Sustainable Development Goal 4 (Ziel für nachhaltige Entwicklung
+     Nr. 4) der Vereinten Nationen fordert inklusive, gleichberechtigte
+     und hochwertige Bildung für alle Menschen weltweit – bis 2030."
+
+    „Bildung befähigt Menschen, ihr Leben selbst zu gestalten. Sie ist
+     der Schlüssel zu Gesundheit, wirtschaftlicher Unabhängigkeit und
+     Frieden. Doch die Realität sieht anders aus."
+
+  FAKTEN & ZAHLEN:
+    • 258 Millionen – Kinder und Jugendliche besuchen weltweit keine Schule
+      (Quelle: UNESCO, 2024)
+    • 617 Millionen – Kinder können nicht richtig lesen oder rechnen
+      (Quelle: UNESCO Institute for Statistics)
+    • 130 Millionen – Mädchen weltweit wird der Zugang zu Bildung verwehrt
+      (Quelle: UNICEF)
+    • 69 Millionen – Lehrkräfte fehlen weltweit
+      (Quelle: UNESCO)
+
+  VERGLEICH TITEL: „Zwei Welten – ein Recht"
+
+  DEUTSCHLAND 🇩🇪:
+    • Schulpflicht & kostenloser Zugang
+    • Qualifizierte Lehrkräfte
+    • Moderne Ausstattung & Digitalisierung
+    • Bibliotheken, Labore, Sporthallen
+    • Schulbusse & sichere Schulwege
+    • Inklusion & Förderprogramme
+
+  ÄRMERE REGIONEN 🌍:
+    • Kein Zugang oder weite Schulwege
+    • Mangel an ausgebildeten Lehrkräften
+    • Überfüllte Klassen (60–100+ Schüler)
+    • Keine Bücher, Stifte oder Hefte
+    • Kinder müssen arbeiten statt lernen
+    • Mädchen werden oft ausgeschlossen
+
+
+──────────────────
+ECHTE STIMMEN
+──────────────────
+
+  Section-Tag: „Echte Stimmen"
+  Titel: „Worte, die bewegen"
+  Untertitel: „Was berühmte Persönlichkeiten und Betroffene über Bildung sagen."
+
+  ZITAT 1 – Nelson Mandela (Friedensnobelpreisträger):
+    „Education is the most powerful weapon which you can use to change the world."
+
+  ZITAT 2 – Malala Yousafzai (Friedensnobelpreisträgerin & Bildungsaktivistin):
+    „One child, one teacher, one book, one pen can change the world."
+
+  ZITAT 3 – Kofi Annan (ehem. UN-Generalsekretär):
+    „Bildung ist die mächtigste Waffe gegen Armut und Ungerechtigkeit."
+
+  ZITAT 4 – Anonymes Zitat (zusammengefasst nach Berichten von UNICEF):
+    „Ich hatte keinen Stift, kein Heft, keine Schuhe. Aber ich hatte
+     einen Traum. Und eine Lehrerin, die daran geglaubt hat."
+
+  MEDIEN-HINWEIS:
+    „Für unser Projekt nutzen wir ausschließlich freigegebenes Material von
+     UNICEF, Save the Children, Plan International und der Georg-Kraus-Stiftung
+     – oder selbst erstellte Rollenspiel-Videos unserer Projektgruppe."
+
+    „Alle verwendeten Medien werden mit vollständiger Quellenangabe versehen.
+     Datenschutzrichtlinien werden streng eingehalten."
+
+
+──────────────────
+SPONSOR A SMILE
+──────────────────
+
+  Section-Tag: „Sponsor a Smile"
+  Titel: „Hilfe beginnt mit einem Klick"
+  Untertitel: „Du kannst etwas verändern – direkt über geprüfte Organisationen."
+
+  RECHTLICHER HINWEIS (PFLICHT!):
+    „Wichtiger Hinweis: Wir sammeln kein Geld. Wir verlinken ausschließlich
+     zu geprüften Hilfsorganisationen. Alle Links führen zu offiziellen,
+     externen Spendenaktionen."
+
+  ORGANISATIONEN:
+    • UNICEF – „Das Kinderhilfswerk der Vereinten Nationen setzt sich
+               weltweit für Kinderrechte und Bildung ein."
+      → Link: https://www.unicef.de/spenden
+
+    • Save the Children – „Setzt sich dafür ein, dass jedes Kind gesund
+                           und sicher aufwächst und lernen kann."
+      → Link: https://www.savethechildren.de/spenden/
+
+    • Plan International – „Engagiert sich besonders für die Bildung und
+                            Gleichberechtigung von Mädchen weltweit."
+      → Link: https://www.plan.de/spenden/
+
+    • Georg-Kraus-Stiftung – „Fördert Bildungsprojekte in Entwicklungsländern
+                              und ermöglicht Kindern den Schulbesuch."
+      → Link: https://www.georg-kraus-stiftung.de/
+
+
+──────────────────
+WIRKUNG ZEIGEN
+──────────────────
+
+  Section-Tag: „Wirkung zeigen"
+  Titel: „Was deine Hilfe bewirkt"
+  Untertitel: „Schon kleine Beträge können Großes verändern."
+
+    •  10 € → 📚 Schulmaterial
+       „Stifte, Hefte und Bücher für ein Kind – für ein halbes Schuljahr."
+
+    •  25 € → 🎒 Schulrucksack
+       „Ein vollständiger Schulrucksack mit Grundausstattung für den Schulstart."
+
+    •  50 € → 🏫 Schulgebühren
+       „Ein ganzes Jahr Schulbesuch für ein Kind in einer Entwicklungsregion."
+
+    • 100 € → 👩‍🏫 Lehrerfortbildung
+       „Weiterbildung einer Lehrkraft, die dann hunderte Kinder unterrichten kann."
+
+  DISCLAIMER:
+    „Die genannten Beträge sind beispielhafte Richtwerte und können je nach
+     Region und Organisation variieren.
+     Quellen: UNICEF, Plan International, Save the Children"
+
+
+──────────────────
+ÜBER UNS
+──────────────────
+
+  Section-Tag: „Über uns"
+  Titel: „Wer wir sind"
+  Untertitel: „Drei Schüler. Eine Mission. Bildung für alle."
+
+  TEXT:
+    „Wir sind drei Schüler der 9. Klasse des Städtischen Gymnasiums
+     Schmallenberg. Mit diesem Projekt möchten wir zeigen, dass Bildung
+     nicht überall selbstverständlich ist – und dass jeder etwas bewirken kann."
+
+    „Dieses Projekt ist unser offizieller Wettbewerbsbeitrag für die
+     Georg-Kraus-Stiftung zum Thema SDG 4 – Hochwertige Bildung."
+
+  TEAM:
+    • Nesimi Gashi – Schüler · 9. Klasse
+    • Friedrich Göbel – Schüler · 9. Klasse
+    • Aladin Alhamoud – Schüler · 9. Klasse
+
+  SCHULE:
+    Städtisches Gymnasium Schmallenberg
+    Obringhauser Straße 38
+    57392 Schmallenberg
+
+
+──────────────────
+FOOTER
+──────────────────
+
+    „© 2026 Sponsor a Smile – Ein Schulprojekt des Städtischen Gymnasiums
+     Schmallenberg."
+
+    „Im Rahmen des Wettbewerbs der Georg-Kraus-Stiftung · SDG 4 –
+     Hochwertige Bildung"
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+13. NÜTZLICHE CSS-TRICKS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+GLASSMORPHISM (Apple-Effekt):
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.06);
+
+GRADIENT-TEXT:
+    background: linear-gradient(90deg, #00c896, #0099dd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+GLOW-EFFEKT:
+    box-shadow: 0 0 40px rgba(0, 200, 150, 0.15);
+
+PILL-SHAPE (runder Button/Tag):
+    border-radius: 50px;
+
+SANFTE ÜBERGÄNGE:
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+TEXT-SELEKTION FARBE ÄNDERN:
+    ::selection {
+        background: #00c896;
+        color: #0a0a0a;
+    }
+
+FOCUS-STYLES (für Barrierefreiheit):
+    *:focus-visible {
+        outline: 2px solid #00c896;
+        outline-offset: 3px;
+    }
+
+SCROLLBAR VERSTECKEN (optional):
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #0a0a0a;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 3px;
+    }
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+14. ORDNERSTRUKTUR & HOSTING-TIPPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ORDNERSTRUKTUR:
+
+    sponsor-a-smile/
+    ├── index.html              ← Hauptseite
+    ├── datenschutz.html        ← Datenschutzerklärung
+    ├── impressum.html          ← Impressum
+    ├── css/
+    │   └── style.css           ← Alle Styles
+    ├── js/
+    │   └── main.js             ← JavaScript
+    └── img/
+        ├── hero.jpg            ← (optional) Hero-Bild
+        └── ...                 ← weitere Bilder
+
+HOSTING-TIPPS:
+  1. Alle Dateien per FTP zum Hoster hochladen
+  2. index.html MUSS im Hauptordner liegen
+  3. Relative Pfade benutzen (css/style.css, nicht /Users/nesimi/...)
+  4. Domain in den Hoster-Einstellungen verknüpfen
+  5. HTTPS aktivieren (SSL-Zertifikat – meist kostenlos bei Let's Encrypt)
+
+KOSTENLOSE HOSTING-ALTERNATIVEN ZUM TESTEN:
+  • GitHub Pages (gratis)
+  • Netlify (gratis)
+  • Vercel (gratis)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Viel Erfolg beim Wettbewerb! 🎉🎓
+  – Nesimi, Friedrich & Aladin
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
