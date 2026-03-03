@@ -41,12 +41,22 @@ body {
     z-index: -1;
 }
 
+.logo-link {
+    display: block;
+    border-radius: 5px;
+    padding: 2px;
+    transition: background-color 0.3s ease;
+    flex-shrink: 0;
+}
+
+.logo-link:hover {
+    background-color: rgb(186, 37, 54);
+}
+
 .logo-img {
     height: clamp(40px, 10vw, 180px);
     width: auto;
     display: block;
-    margin-left: clamp(-20px, -2vw, -5px);
-    flex-shrink: 0;
 }
 
 .menu {
@@ -88,7 +98,7 @@ body {
     align-items: center;
     gap: clamp(3px, 0.4vw, 8px);
     margin-right: clamp(10px, 2vw, 30px);
-    margin-top: clamp(-10px, -1vw, -4px);
+    margin-top: clamp(-30px, -3vw, -12px);
     flex-shrink: 0;
 }
 
