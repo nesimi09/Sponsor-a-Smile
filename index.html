@@ -172,8 +172,20 @@
         <p data-de="Inhalt kommt noch..." data-en="Content coming soon...">Inhalt kommt noch...</p>
     </section>
 
-    
+    <form action="send.php" method="post">
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name" required><br><br>
+
+  <label for="email">E-Mail:</label><br>
+  <input type="email" id="email" name="email" required><br><br>
+
+  <label for="message">Nachricht:</label><br>
+  <textarea id="message" name="message" required></textarea><br><br>
+
+  <button type="submit">Nachricht senden</button>
+</form>
 
     <script src="script.js"></script>
 </body>
+
 </html>
