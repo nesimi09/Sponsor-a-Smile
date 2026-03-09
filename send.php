@@ -1,16 +1,19 @@
 <?php
+
 $name = $_POST['name'];
 $email = $_POST['email'];
 $message = $_POST['message'];
 
-$to = "deine@email.de";
-$subject = "Neue Nachricht von der Website";
+$to = "nesimigashi09@gmail.com";   
 
-$body = "Name: $name\n";
-$body .= "Email: $email\n\n";
-$body .= "Nachricht:\n$message";
+$subject = "Neue Nachricht von deiner Website";
 
-mail($to, $subject, $body);
+$text = "Name: " . $name . "\n";
+$text .= "Email: " . $email . "\n\n";
+$text .= "Nachricht:\n" . $message;
+
+mail($to, $subject, $text);
 
 echo "Danke für deine Nachricht!";
+
 ?>
