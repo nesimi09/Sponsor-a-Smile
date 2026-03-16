@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sponsor a Smile - Bildung für alle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,800;0,9..144,900;1,9..144,300;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://formspree.io/js/formbutton-v1.min.js" defer></script>
+<style>
+:root{
+  --red:#ba2536;--red-d:#8c1a27;--red-l:#fbeced;
+  --cream:#fdfaf5;--dark:#160b0d;--mid:#5c2530;
+  --font-d:'Fraunces',Georgia,serif;--font-b:'DM Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(.22,.68,0,1.2);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--cream);color:var(--dark);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:var(--font-b)}
+img{display:block;max-width:100%}
+
+#prog{position:fixed;top:0;left:0;height:3px;background:var(--red);z-index:9999;transition:width .1s linear}
+
+/* NAV */
+.nav{position:fixed;top:3px;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,60px);height:100px;transition:background .3s,box-shadow .3s,backdrop-filter .3s}
+.nav.scrolled{background:rgba(253,250,245,.94);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(186,37,54,.1)}
+.nav-logo img{height:100px;transition:transform .3s var(--ease)}
+.nav-logo:hover img{transform:scale(1.05)}
+.nav-links{display:flex;gap:clamp(2px,1.3vw,18px);list-style:none;align-items:center}
+.nav-links a{font-size:clamp(10px,1.1vw,13px);font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mid);padding:6px 9px;border-radius:6px;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:2px;left:9px;right:9px;height:2px;background:var(--red);border-radius:2px;transform:scaleX(0);transition:transform .25s var(--ease)}
+.nav-links a.active,.nav-links a:hover{color:var(--red)}
+.nav-links a.active::after,.nav-links a:hover::after{transform:scaleX(1)}
+.lang-toggle{display:flex;align-items:center;gap:6px}
+.lang-btn{background:none;border:none;font-size:12px;font-weight:700;color:#bbb;padding:5px 9px;border-radius:6px;transition:color .2s,background .2s;letter-spacing:.07em}
+.lang-btn.on{color:var(--red);background:var(--red-l)}
+.sep{color:#ddd;font-size:12px}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--dark)}
+#hc{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.hero-body{position:relative;z-index:2;text-align:center;padding:140px clamp(20px,5vw,80px) 70px;max-width:860px}
+.hero-badge{display:inline-flex;align-items:center;gap:9px;background:rgba(186,37,54,.22);border:1px solid rgba(186,37,54,.4);color:#ffb3ba;padding:7px 18px;border-radius:30px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:28px;backdrop-filter:blur(4px)}
+.badge-n{background:var(--red);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900}
+.hero-h1{font-family:var(--font-d);font-size:clamp(30px,6vw,82px);font-weight:900;color:#fff;line-height:1.08;letter-spacing:-.025em;margin-bottom:24px}
+.hero-h1 em{font-style:italic;color:#ff8a95}
+.tw-wrap{min-height:1.08em;display:inline-flex;align-items:center}
+.cursor{display:inline-block;width:3px;height:.82em;background:#ff8a95;margin-left:3px;border-radius:2px;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.hero-sub{font-size:clamp(14px,1.7vw,19px);color:rgba(255,255,255,.7);line-height:1.7;max-width:600px;margin:0 auto 36px}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-red{background:var(--red);color:#fff;padding:14px 30px;border-radius:50px;border:none;font-size:14px;font-weight:700;transition:background .2s,transform .2s var(--ease),box-shadow .2s;box-shadow:0 4px 22px rgba(186,37,54,.4)}
+.btn-red:hover{background:#d42c40;transform:translateY(-2px) scale(1.03);box-shadow:0 8px 30px rgba(186,37,54,.5)}
+.btn-outline{background:transparent;color:#fff;padding:13px 28px;border-radius:50px;border:2px solid rgba(255,255,255,.3);font-size:14px;font-weight:700;transition:border-color .2s,background .2s,transform .2s var(--ease)}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.08);transform:translateY(-2px)}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,.35);font-size:10px;letter-spacing:.12em;text-transform:uppercase;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* STATS */
+.stats{background:var(--red);display:flex;flex-wrap:wrap;justify-content:center}
+.stat-blk{flex:1;min-width:160px;padding:32px 24px;text-align:center;position:relative}
+.stat-blk:not(:last-child)::after{content:'';position:absolute;right:0;top:22%;bottom:22%;width:1px;background:rgba(255,255,255,.18)}
+.stat-blk .n{font-family:var(--font-d);font-size:clamp(30px,4.5vw,54px);font-weight:900;color:#fff;line-height:1}
+.stat-blk .u{color:rgba(255,255,255,.65);font-weight:700;font-size:.65em}
+.stat-blk .lbl{display:block;margin-top:5px;font-size:clamp(11px,1vw,13px);color:rgba(255,255,255,.7);line-height:1.4;max-width:130px;margin-inline:auto}
+
+/* SECTIONS */
+.sec{padding:clamp(64px,9vw,130px) clamp(20px,5vw,80px)}
+.sec-in{max-width:1080px;margin:0 auto}
+.tag{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);background:var(--red-l);padding:5px 13px;border-radius:20px;margin-bottom:16px}
+.tag.lt{background:rgba(255,255,255,.18);color:rgba(255,255,255,.9)}
+.sec-h{font-family:var(--font-d);font-size:clamp(28px,5vw,64px);font-weight:900;line-height:1.08;letter-spacing:-.02em;margin-bottom:18px}
+.sec-h.wh{color:#fff}.sec-h.c{text-align:center}
+.sec-lead{font-size:clamp(15px,1.7vw,20px);line-height:1.65;color:var(--mid);max-width:660px;margin-bottom:48px}
+.sec-lead.c{text-align:center;margin-inline:auto}.sec-lead.wh{color:rgba(255,255,255,.82)}
+.bg-cream{background:var(--cream)}.bg-red{background:var(--red)}.bg-dark{background:var(--dark)}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .55s ease,transform .55s ease}
+.rv.in{opacity:1;transform:translateY(0)}
+.rv1{transition-delay:.1s}.rv2{transition-delay:.2s}.rv3{transition-delay:.3s}
+
+/* TABS */
+.tab-bar{display:flex;gap:5px;flex-wrap:wrap;background:var(--red-l);padding:5px;border-radius:14px;margin-bottom:36px}
+.tab-btn{flex:1;min-width:110px;background:transparent;border:none;padding:11px 16px;border-radius:10px;font-size:13px;font-weight:700;color:var(--mid);transition:background .2s,color .2s,transform .2s var(--ease);white-space:nowrap}
+.tab-btn:hover{color:var(--red)}
+.tab-btn.on{background:#fff;color:var(--red);box-shadow:0 2px 12px rgba(186,37,54,.15);transform:scale(1.02)}
+.tab-panel{animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* SDG BOX */
+.sdg-box{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start;background:#fff;border-radius:18px;padding:28px;border:2px solid var(--red-l);box-shadow:0 3px 24px rgba(186,37,54,.06)}
+.sdg-num{width:72px;height:72px;border-radius:14px;background:var(--red);color:#fff;font-family:var(--font-d);font-size:40px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.sdg-txt h3{font-family:var(--font-d);font-size:clamp(16px,1.8vw,21px);font-weight:800;margin-bottom:10px}
+.sdg-txt p{font-size:14px;line-height:1.7;color:var(--mid);margin-bottom:14px}
+.sdg-goals{display:flex;flex-direction:column;gap:7px}
+.sdg-goal{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--mid);font-weight:500}
+.sdg-goal::before{content:'-';width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* CARDS */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.card{background:#fff;border-radius:18px;padding:26px 24px;border:2px solid var(--red-l);box-shadow:0 2px 16px rgba(186,37,54,.05);transition:transform .25s var(--ease),box-shadow .25s}
+.card:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(186,37,54,.12)}
+.card-ico{font-size:2.1rem;margin-bottom:12px}
+.card h3{font-family:var(--font-d);font-size:clamp(16px,1.8vw,21px);font-weight:800;margin-bottom:9px}
+.card p{font-size:14px;line-height:1.7;color:var(--mid)}
+.pills{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.pill{background:var(--red);color:#fff;padding:7px 12px;border-radius:9px;font-size:12px;font-weight:700}
+.pill span{display:block;font-size:11px;font-weight:400;opacity:.85}
+
+/* FLIP CARDS */
+.flip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
+.flip-card{height:270px;perspective:1000px;cursor:pointer}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-f,.flip-b{position:absolute;inset:0;border-radius:18px;padding:26px 22px;backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center}
+.flip-f{background:rgba(255,255,255,.11);border:2px solid rgba(255,255,255,.18);align-items:center;text-align:center}
+.flip-b{background:#fff;border:2px solid var(--red-l);transform:rotateY(180deg);justify-content:space-between}
+.flip-ico{font-size:2.8rem;margin-bottom:13px}
+.flip-f h3{color:#fff;font-size:clamp(16px,1.8vw,20px);font-weight:800}
+.flip-f .hint{color:rgba(255,255,255,.45);font-size:11px;margin-top:10px}
+.flip-b h3{color:var(--red);font-size:15px;font-weight:800;margin-bottom:9px}
+.flip-b p{color:var(--mid);font-size:13px;line-height:1.65;flex:1}
+.flip-ex{background:var(--red-l);color:var(--red);border-radius:8px;padding:7px 11px;font-size:12px;line-height:1.5;margin-top:10px}
+
+/* STEPPER */
+.stepper{display:grid;grid-template-columns:1fr 2.8fr;gap:28px;align-items:start}
+.step-nav{display:flex;flex-direction:column;gap:6px}
+.snav-btn{display:flex;align-items:center;gap:12px;background:transparent;border:none;padding:14px 16px;border-radius:12px;text-align:left;transition:background .2s,transform .2s var(--ease);color:var(--mid);width:100%}
+.snav-btn:hover{background:var(--red-l);color:var(--red)}
+.snav-btn.on{background:var(--red);color:#fff;transform:scale(1.03);box-shadow:0 4px 18px rgba(186,37,54,.3)}
+.snav-num{width:34px;height:34px;border-radius:50%;background:rgba(186,37,54,.12);color:var(--red);font-family:var(--font-d);font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,color .2s}
+.snav-btn.on .snav-num{background:rgba(255,255,255,.22);color:#fff}
+.snav-lbl{font-size:13px;font-weight:700}
+.step-card{background:var(--dark);border-radius:22px;padding:clamp(26px,4vw,44px);color:#fff;min-height:300px;display:flex;flex-direction:column;justify-content:space-between;animation:fadeUp .35s ease}
+.step-bnum{font-family:var(--font-d);font-size:72px;font-weight:900;color:rgba(255,255,255,.06);line-height:1;margin-bottom:-14px}
+.step-card h3{font-family:var(--font-d);font-size:clamp(20px,2.3vw,28px);font-weight:800;margin-bottom:14px;color:#fff}
+.step-card p{font-size:15px;line-height:1.7;color:rgba(255,255,255,.76)}
+.step-btm{margin-top:24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.step-tag{background:rgba(186,37,54,.28);border:1px solid rgba(186,37,54,.45);color:#ff8a95;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700}
+.step-next{margin-left:auto;background:var(--red);color:#fff;border:none;padding:9px 20px;border-radius:18px;font-size:13px;font-weight:700;transition:background .2s,transform .2s var(--ease)}
+.step-next:hover{background:#d42c40;transform:scale(1.07)}
+.hl-strip{background:var(--red);border-radius:18px;padding:28px 32px;margin-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:22px}
+.hl-pt strong{display:block;color:#fff;font-size:14px;font-weight:800;margin-bottom:5px}
+.hl-pt span{color:rgba(255,255,255,.8);font-size:13px;line-height:1.5}
+
+/* QUIZ */
+.quiz-box{background:var(--dark);border-radius:26px;padding:clamp(28px,5vw,52px);max-width:680px;margin:0 auto}
+.qprog-wrap{margin-bottom:28px}
+.qprog-lbl{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:7px;letter-spacing:.07em;text-transform:uppercase}
+.qprog-track{height:4px;background:rgba(255,255,255,.09);border-radius:4px;overflow:hidden}
+.qprog-fill{height:100%;background:var(--red);border-radius:4px;transition:width .4s var(--ease)}
+.q-text{font-family:var(--font-d);font-size:clamp(19px,2.3vw,26px);font-weight:700;color:#fff;margin-bottom:24px;line-height:1.35}
+.q-opts{display:flex;flex-direction:column;gap:9px;margin-bottom:22px}
+.q-opt{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.1);border-radius:11px;padding:13px 18px;font-size:14px;font-weight:600;color:rgba(255,255,255,.84);text-align:left;transition:border-color .2s,background .2s,transform .15s var(--ease)}
+.q-opt:hover:not(:disabled){border-color:rgba(186,37,54,.5);background:rgba(186,37,54,.1);transform:scale(1.01)}
+.q-opt.correct{border-color:#4ade80;background:rgba(74,222,128,.14);color:#86efac}
+.q-opt.wrong{border-color:#f87171;background:rgba(248,113,113,.13);color:#fca5a5}
+.q-fb{padding:13px 16px;border-radius:10px;font-size:13px;line-height:1.55;margin-bottom:18px;animation:fadeUp .25s ease}
+.q-fb.ok{background:rgba(74,222,128,.13);color:#86efac;border:1px solid rgba(74,222,128,.28)}
+.q-fb.nope{background:rgba(248,113,113,.1);color:#fca5a5;border:1px solid rgba(248,113,113,.28)}
+.q-next{background:var(--red);color:#fff;border:none;padding:12px 26px;border-radius:22px;font-size:14px;font-weight:700;transition:background .2s,transform .2s var(--ease);animation:fadeUp .3s ease}
+.q-next:hover{background:#d42c40;transform:scale(1.04)}
+.q-result{text-align:center;animation:fadeUp .5s ease}
+.q-score{font-family:var(--font-d);font-size:clamp(48px,8vw,90px);font-weight:900;color:var(--red);line-height:1}
+.q-slbl{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:20px}
+.q-rmsg{font-family:var(--font-d);font-size:clamp(17px,2vw,22px);color:#fff;font-weight:700;margin-bottom:12px}
+.q-rtxt{font-size:14px;color:rgba(255,255,255,.68);line-height:1.6;margin-bottom:24px}
+.q-retry{background:rgba(255,255,255,.09);border:2px solid rgba(255,255,255,.18);color:#fff;padding:11px 24px;border-radius:22px;font-size:13px;font-weight:700;transition:background .2s,transform .2s var(--ease)}
+.q-retry:hover{background:rgba(255,255,255,.16);transform:scale(1.04)}
+
+/* CAROUSEL */
+.car-outer{overflow:hidden;border-radius:18px;margin-bottom:20px}
+.car-track{display:flex;transition:transform .5s cubic-bezier(.4,.2,.2,1)}
+.car-slide{min-width:100%;padding:0 3px}
+.quote-card{background:var(--red-l);border-radius:18px;padding:36px 34px;border:2px solid rgba(186,37,54,.11);position:relative;overflow:hidden}
+.quote-card::before{content:'"';font-family:var(--font-d);font-size:160px;color:rgba(186,37,54,.06);position:absolute;top:-20px;left:16px;line-height:1;pointer-events:none}
+.q-txt{font-family:var(--font-d);font-size:clamp(17px,2vw,24px);font-weight:300;font-style:italic;color:var(--dark);line-height:1.5;margin-bottom:20px;position:relative;z-index:1}
+.q-auth{display:flex;align-items:center;gap:12px}
+.q-av{width:44px;height:44px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.q-auth strong{display:block;font-size:14px}
+.q-auth span{font-size:12px;color:var(--mid)}
+.car-ctrl{display:flex;align-items:center;justify-content:center;gap:14px}
+.car-btn{width:42px;height:42px;border-radius:50%;background:var(--red-l);border:2px solid var(--red);color:var(--red);font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s,transform .2s var(--ease)}
+.car-btn:hover{background:var(--red);color:#fff;transform:scale(1.1)}
+.car-dots{display:flex;gap:7px}
+.car-dot{width:7px;height:7px;border-radius:50%;background:rgba(186,37,54,.22);border:none;transition:background .2s,transform .2s;cursor:pointer}
+.car-dot.on{background:var(--red);transform:scale(1.35)}
+
+/* VIDEO */
+.vid-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin-top:52px}
+.vid-ph{background:#1a0a0c;border-radius:16px;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:2px solid rgba(186,37,54,.2);transition:border-color .2s,transform .2s var(--ease)}
+.vid-ph:hover{border-color:var(--red);transform:scale(1.02)}
+.vid-play{width:54px;height:54px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 22px rgba(186,37,54,.45);transition:transform .2s var(--ease)}
+.vid-ph:hover .vid-play{transform:scale(1.12)}
+.vid-ph p{color:rgba(255,255,255,.55);font-size:12px;text-align:center;padding:0 14px}
+.vid-ph code{color:rgba(255,255,255,.28);font-size:10px}
+.vid-wrap{border-radius:16px;overflow:hidden;aspect-ratio:16/9}
+.vid-wrap iframe{width:100%;height:100%;border:none}
+
+/* TIKTOK SECTION */
+.tiktok-hero{background:var(--dark);border-radius:24px;padding:40px 36px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;margin-bottom:40px}
+.tiktok-logo{font-size:4rem;flex-shrink:0;width:88px;height:88px;background:linear-gradient(135deg,#010101,#1a1a1a);border-radius:20px;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.1)}
+.tiktok-hero-text h3{font-family:var(--font-d);font-size:clamp(20px,2.5vw,30px);font-weight:900;color:#fff;margin-bottom:8px}
+.tiktok-hero-text p{font-size:14px;color:rgba(255,255,255,.72);line-height:1.65;max-width:560px}
+.tiktok-handle{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:8px 16px;border-radius:30px;font-size:13px;font-weight:700;margin-top:14px;transition:background .2s}
+.tiktok-handle:hover{background:rgba(255,255,255,.18)}
+.vid-ideas{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:40px}
+.vid-idea{background:#fff;border-radius:18px;border:2px solid var(--red-l);overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s}
+.vid-idea:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(186,37,54,.11)}
+.vid-idea-top{background:var(--red);padding:20px 22px;display:flex;align-items:center;gap:12px}
+.vid-idea-num{font-family:var(--font-d);font-size:28px;font-weight:900;color:rgba(255,255,255,.3)}
+.vid-idea-top h3{font-family:var(--font-d);font-size:16px;font-weight:800;color:#fff}
+.vid-idea-body{padding:18px 22px}
+.vid-idea-body p{font-size:13px;line-height:1.7;color:var(--mid);margin-bottom:12px}
+.vid-script{background:var(--red-l);border-radius:10px;padding:12px 14px}
+.vid-script strong{display:block;font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.vid-script p{font-size:12px;color:var(--mid);font-style:italic;margin:0}
+.tiktok-tips{background:var(--dark);border-radius:18px;padding:28px 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-bottom:40px}
+.tip-item strong{display:block;color:#fff;font-size:14px;font-weight:800;margin-bottom:6px}
+.tip-item span{font-size:13px;color:rgba(255,255,255,.7);line-height:1.55}
+.hashtag-cloud{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.hashtag{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.15);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700}
+
+/* MITMACHEN */
+.contact-only{max-width:680px;margin:0 auto}
+.form-box{background:rgba(255,255,255,.09);border:2px solid rgba(255,255,255,.14);border-radius:22px;padding:clamp(22px,4vw,38px)}
+.form-box h3{color:#fff;font-family:var(--font-d);font-size:clamp(19px,2vw,24px);font-weight:800;margin-bottom:5px}
+.form-note{color:rgba(255,255,255,.5);font-size:12px;margin-bottom:22px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f-grp{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.f-grp label{font-size:11px;font-weight:700;color:rgba(255,255,255,.65);letter-spacing:.07em;text-transform:uppercase}
+.f-grp input,.f-grp select,.f-grp textarea{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.13);border-radius:9px;padding:10px 13px;color:#fff;font-family:var(--font-b);font-size:13px;outline:none;resize:vertical;transition:border-color .2s,background .2s}
+.f-grp input::placeholder,.f-grp textarea::placeholder{color:rgba(255,255,255,.3)}
+.f-grp input:focus,.f-grp select:focus,.f-grp textarea:focus{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.15)}
+.f-grp select option{background:var(--dark);color:#fff}
+.f-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:4px}
+.f-priv{font-size:11px;color:rgba(255,255,255,.38);flex:1}
+.btn-submit{background:#fff;color:var(--red);border:none;padding:12px 26px;border-radius:28px;font-size:13px;font-weight:800;transition:background .2s,transform .2s var(--ease)}
+.btn-submit:hover{background:#ffe8ea;transform:scale(1.05)}
+.btn-submit:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.f-msg{padding:12px 15px;border-radius:9px;font-size:13px;font-weight:600;margin-top:12px;animation:fadeUp .3s ease}
+.f-msg.ok{background:rgba(74,222,128,.14);color:#86efac;border:1px solid rgba(74,222,128,.27)}
+.f-msg.err{background:rgba(248,113,113,.1);color:#fca5a5;border:1px solid rgba(248,113,113,.27)}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px;margin-bottom:52px}
+.team-card{background:#fff;border-radius:18px;padding:26px 22px;border:2px solid var(--red-l);text-align:center;box-shadow:0 2px 14px rgba(186,37,54,.05);transition:transform .25s var(--ease),box-shadow .25s}
+.team-card:hover{transform:translateY(-6px);box-shadow:0 14px 34px rgba(186,37,54,.13)}
+.t-av{width:76px;height:76px;border-radius:50%;background:var(--red-l);border:3px solid var(--red);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;overflow:hidden}
+.t-av img{width:100%;height:100%;object-fit:cover}
+.team-card h3{font-family:var(--font-d);font-size:19px;font-weight:800;margin-bottom:4px}
+.team-card .role{font-size:12px;color:var(--red);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:9px}
+.team-card p{font-size:13px;color:var(--mid);line-height:1.6}
+
+/* ACCORDION */
+.acc{display:flex;flex-direction:column;gap:9px;max-width:800px}
+.acc-item{background:#fff;border-radius:14px;border:2px solid var(--red-l);overflow:hidden;transition:box-shadow .2s}
+.acc-item.open{box-shadow:0 4px 22px rgba(186,37,54,.09)}
+.acc-trg{width:100%;background:none;border:none;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;text-align:left;cursor:pointer;transition:background .2s}
+.acc-trg:hover{background:var(--red-l)}
+.acc-trg h4{font-size:15px;font-weight:700;color:var(--dark)}
+.acc-ico{width:26px;height:26px;border-radius:50%;background:var(--red-l);color:var(--red);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px;transition:transform .3s var(--ease),background .2s;font-weight:900}
+.acc-item.open .acc-ico{transform:rotate(45deg);background:var(--red);color:#fff}
+.acc-body{overflow:hidden;transition:max-height .4s cubic-bezier(.4,.2,.2,1);max-height:0;padding:0 22px}
+.acc-item.open .acc-body{padding:0 22px 18px}
+.acc-body p{font-size:14px;color:var(--mid);line-height:1.75}
+
+/* SOURCES */
+.sources{background:var(--red-l);border-radius:18px;padding:26px 28px;margin-top:36px;max-width:800px}
+.sources h3{font-size:16px;font-weight:800;color:var(--red);margin-bottom:14px}
+.sources ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.sources li{font-size:13px;color:var(--mid);padding-left:16px;position:relative;line-height:1.55}
+.sources li::before{content:'';position:absolute;left:0;color:var(--red);font-weight:900}
+.sources a{color:var(--red);text-decoration:underline}
+
+/* FOOTER */
+.footer{background:var(--dark);padding:44px clamp(20px,5vw,80px)}
+.footer-in{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center}
+.footer-logo img{height:40px;opacity:.55;filter:brightness(10)}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;justify-content:center}
+.footer-links a{font-size:12px;color:rgba(255,255,255,.4);font-weight:700;transition:color .2s;text-transform:uppercase;letter-spacing:.06em}
+.footer-links a:hover{color:rgba(255,255,255,.82)}
+.footer-copy{font-size:11px;color:rgba(255,255,255,.2)}
+
+.img-ph{background:var(--red-l);border:2px dashed rgba(186,37,54,.28);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:rgba(186,37,54,.5);font-size:12px;text-align:center;padding:20px 14px}
+.img-ph .pico{font-size:1.9rem}
+
+@media(max-width:768px){
+.two-col,.stepper,.f-row{grid-template-columns:1fr}
+.sdg-box{grid-template-columns:1fr}
+.nav-links{display:none}
+.hl-strip{grid-template-columns:1fr}
+.tiktok-hero{flex-direction:column}
+}
+</style>
+
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// ══════════ HOOKS ══════════
+function useReveal() {
+useEffect(() => {
+const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); }), { threshold: 0.08 });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+return () => obs.disconnect();
+}, []);
+}
+function useScrollProgress() {
+useEffect(() => {
+const bar = document.getElementById('prog');
+const fn = () => { const m = document.documentElement.scrollHeight - window.innerHeight; if(bar) bar.style.width = (window.scrollY/m*100)+'%'; };
+window.addEventListener('scroll', fn);
+return () => window.removeEventListener('scroll', fn);
+}, []);
+}
+function useActive(ids) {
+const [a, setA] = useState('');
+useEffect(() => {
+const fn = () => { let c=''; ids.forEach(id => { const el=document.getElementById(id); if(el&&window.scrollY>=el.offsetTop-220) c=id; }); setA(c); };
+window.addEventListener('scroll', fn); fn();
+return () => window.removeEventListener('scroll', fn);
+}, []);
+return a;
+}
+function useTypewriter(words) {
+const [text, setText] = useState('');
+const s = useRef({ wi:0, ci:0, del:false });
+useEffect(() => {
+let t;
+const tick = () => {
+const { wi, ci, del } = s.current;
+const w = words[wi % words.length];
+if(!del) { const n=ci+1; setText(w.slice(0,n)); if(n>=w.length){s.current={wi,ci:n,del:true};t=setTimeout(tick,6000);}else{s.current={wi,ci:n,del:false};t=setTimeout(tick,130);} }
+else { const n=ci-1; setText(w.slice(0,n)); if(n===0){s.current={wi:wi+1,ci:0,del:false};t=setTimeout(tick,500);}else{s.current={wi,ci:n,del:true};t=setTimeout(tick,70);} }
+};
+tick();
+return () => clearTimeout(t);
+}, [words]);
+return text;
+}
+function useCounter(target, trigger) {
+const [v, setV] = useState(0);
+const done = useRef(false);
+useEffect(() => {
+if(!trigger||done.current) return;
+done.current = true;
+const dur=1800, start=performance.now();
+const f = now => { const p=Math.min((now-start)/dur,1), e=1-Math.pow(1-p,4); setV(Math.floor(e*target)); if(p<1) requestAnimationFrame(f); else setV(target); };
+requestAnimationFrame(f);
+}, [trigger]);
+return v;
+}
+
+// ══════════ CANVAS ══════════
+function HeroCanvas() {
+const ref = useRef();
+useEffect(() => {
+const cv = ref.current, ctx = cv.getContext('2d');
+let W, H, ps=[], raf;
+const resize = () => { W=cv.width=cv.offsetWidth; H=cv.height=cv.offsetHeight; };
+window.addEventListener('resize', resize); resize();
+class P { constructor(y){ this.reset(); if(y!==undefined) this.y=y; }
+reset(){ this.x=Math.random()*W; this.y=H+10; this.vx=(Math.random()-.5)*.4; this.vy=-(Math.random()*.65+.25); this.r=Math.random()*2.2+.4; this.a=Math.random()*.5+.08; this.c=Math.random()>.5?'#ba2536':'#fff'; }
+update(){ this.x+=this.vx; this.y+=this.vy; if(this.y<-10) this.reset(); }
+draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle=this.c; ctx.globalAlpha=this.a; ctx.fill(); }
+}
+for(let i=0;i<90;i++) ps.push(new P(Math.random()*H));
+const animate = () => { ctx.clearRect(0,0,W,H); ctx.globalAlpha=1; ps.forEach(p=>{p.update();p.draw();}); raf=requestAnimationFrame(animate); };
+animate();
+return () => { cancelAnimationFrame(raf); window.removeEventListener('resize',resize); };
+}, []);
+return <canvas ref={ref} id="hc"/>;
+}
+
+// ══════════ COUNTER ══════════
+function StatBlk({ target, unit, label, trigger }) {
+const v = useCounter(target, trigger);
+return <div className="stat-blk"><div><span className="n">{v}</span><span className="u">{unit}</span></div><span className="lbl">{label}</span></div>;
+}
+function StatsStrip() {
+const ref = useRef();
+const [t, setT] = useState(false);
+useEffect(() => {
+if(!ref.current) return;
+const obs = new IntersectionObserver(([e])=>{ if(e.isIntersecting) setT(true); },{threshold:.3});
+obs.observe(ref.current); return ()=>obs.disconnect();
+},[]);
+return (
+<div className="stats" ref={ref}>
+<StatBlk target={250} unit=" Mio." label="Kinder ohne Schule weltweit" trigger={t}/>
+<div style={{width:1,background:'rgba(255,255,255,.15)',margin:'20px 0'}}/>
+<StatBlk target={64} unit="%" label="davon in Subsahara-Afrika" trigger={t}/>
+<div style={{width:1,background:'rgba(255,255,255,.15)',margin:'20px 0'}}/>
+<StatBlk target={1} unit=" €" label="= 1 Monat Schulmaterial" trigger={t}/>
+<div style={{width:1,background:'rgba(255,255,255,.15)',margin:'20px 0'}}/>
+<StatBlk target={160} unit=" Mio." label="Kinder in Kinderarbeit statt Schule" trigger={t}/>
+</div>
+);
+}
+
+// ══════════ QUIZ ══════════
+const QS = [
+{ q:'Wie viele Kinder weltweit gehen nicht zur Schule?', opts:['Ca. 50 Millionen','Ca. 100 Millionen','Ca. 250 Millionen','Ca. 500 Millionen'], c:2, fb:'Ca. 250 Millionen Kinder gehen nicht zur Schule - das entspricht ca. 3 der Bevölkerung Deutschlands.' },
+{ q:'Was fordert das UN-Nachhaltigkeitsziel 4 bis 2030?', opts:['Mindestens 50% der Kinder in der Schule','Hochwertige und gleichberechtigte Bildung für alle','Nur Universitätsbildung für alle','Digitale Bildung weltweit'], c:1, fb:'SDG 4 fordert hochwertige, inklusive und chancengerechte Bildung für alle - viel mehr als nur Schulbesuch.' },
+{ q:'Wie viel kostet Schulmaterial für einen Monat in ärmeren Ländern?', opts:['Ca. 50 €','Ca. 20 €','Ca. 5 €','Manchmal schon ab 1 €'], c:3, fb:'In manchen Ländern reichen 1-2 € für einen Monat Stifte und Hefte. Das zeigt, wie viel kleines Geld bewirken kann.' },
+{ q:'In welcher Region leben die meisten Kinder ohne Schulzugang?', opts:['Südamerika','Osteuropa','Subsahara-Afrika','Nordamerika'], c:2, fb:'Ca. 64 % aller Kinder ohne Schulzugang leben in Subsahara-Afrika - dort fehlen Schulgebäude, Lehrer und Materialien.' }
+];
+function Quiz() {
+const [qi, setQi] = useState(0);
+const [score, setScore] = useState(0);
+const [sel, setSel] = useState(null);
+const [done, setDone] = useState(false);
+const reset = () => { setQi(0); setScore(0); setSel(null); setDone(false); };
+const pick = i => { if(sel!==null) return; setSel(i); if(i===QS[qi].c) setScore(s=>s+1); };
+const next = () => { if(qi+1>=QS.length) setDone(true); else { setQi(q=>q+1); setSel(null); } };
+if(done) {
+const idx=Math.min(score,3);
+const msgs=['Noch nicht so gut...','Nicht schlecht!','Richtig gut!','Perfekt!'];
+const txts=['Lies dir die Infos auf der Seite nochmal durch - da steckt alles drin!','Du kennst das Thema schon ganz gut. Noch ein bisschen Lesen!','Beeindruckend! Du hast das Thema wirklich verstanden.','Volle Punktzahl! Du könntest selbst eine Präsentation zu SDG4 halten.'];
+return <div className="quiz-box"><div className="q-result"><div className="q-score">{score}/4</div><div className="q-slbl">Richtige Antworten</div><div className="q-rmsg">{msgs[idx]}</div><p className="q-rtxt">{txts[idx]}</p><button className="q-retry" onClick={reset}>↩ Nochmal versuchen</button></div></div>;
+}
+const q = QS[qi];
+return (
+<div className="quiz-box">
+<div className="qprog-wrap">
+<div className="qprog-lbl"><span>Frage {qi+1} von {QS.length}</span><span>{score} Richtig</span></div>
+<div className="qprog-track"><div className="qprog-fill" style={{width:`${qi/QS.length*100}%`}}/></div>
+</div>
+<div className="q-text" key={qi}>{q.q}</div>
+<div className="q-opts">
+{q.opts.map((o,i) => {
+let cls='q-opt';
+if(sel!==null){ if(i===q.c) cls+=' correct'; else if(i===sel) cls+=' wrong'; }
+return <button key={i} className={cls} onClick={()=>pick(i)} disabled={sel!==null}>{o}</button>;
+})}
+</div>
+{sel!==null && <div className={`q-fb ${sel===q.c?'ok':'nope'}`}>{sel===q.c?`✅ ${q.fb}`:`❌ Leider falsch. Richtig: „${q.opts[q.c]}" - ${q.fb}`}</div>}
+{sel!==null && <button className="q-next" onClick={next}>{qi+1<QS.length?'Nächste Frage ':'Ergebnis zeigen '}</button>}
+</div>
+);
+}
+
+// ══════════ CAROUSEL ══════════
+const QUOTES = [
+{ text:'„Ein Kind, ein Lehrer, ein Buch und ein Stift können die Welt verändern."', name:'Malala Yousafzai', role:'Friedensnobelpreisträgerin, Bildungsaktivistin', ico:'✊' },
+{ text:'„Bildung ist die mächtigste Waffe, mit der du die Welt verändern kannst."', name:'Nelson Mandela', role:'Ehemaliger Präsident Südafrikas', ico:'✌️' },
+{ text:'„Der beste Weg aus der Armut ist der Schulweg."', name:'Georg Kraus Stiftung', role:'Leitgedanke der Stiftung', ico:'📚' },
+{ text:'„Investitionen in Bildung haben die höchste Rendite aller Investitionen."', name:'UNESCO', role:'United Nations Educational, Scientific and Cultural Organization', ico:'📊' }
+];
+function Carousel() {
+const [idx, setIdx] = useState(0);
+const n = QUOTES.length;
+const go = d => setIdx(i=>(i+d+n)%n);
+useEffect(() => { const t=setInterval(()=>go(1),5200); return ()=>clearInterval(t); }, []);
+return (
+<div style={{maxWidth:700,margin:'0 auto'}}>
+<div className="car-outer"><div className="car-track" style={{transform:`translateX(-${idx*100}%)`}}>
+{QUOTES.map((q,i)=>(
+<div key={i} className="car-slide"><div className="quote-card">
+<p className="q-txt">{q.text}</p>
+<div className="q-auth"><div className="q-av">{q.ico}</div><div><strong>{q.name}</strong><span>{q.role}</span></div></div>
+</div></div>
+))}
+</div></div>
+<div className="car-ctrl">
+<button className="car-btn" onClick={()=>go(-1)}>‹</button>
+<div className="car-dots">{QUOTES.map((_,i)=><button key={i} className={`car-dot${i===idx?' on':''}`} onClick={()=>setIdx(i)}/>)}</div>
+<button className="car-btn" onClick={()=>go(1)}>›</button>
+</div>
+</div>
+);
+}
+
+// ══════════ FLIP CARD ══════════
+function FlipCard({data}) {
+const [f, setF] = useState(false);
+return (
+<div className={`flip-card${f?' flipped':''}`} onClick={()=>setF(x=>!x)}>
+<div className="flip-inner">
+<div className="flip-f"><div className="flip-ico">{data.icon}</div><h3>{data.h}</h3><span className="hint">↻ Tippe zum Umdrehen</span></div>
+<div className="flip-b"><h3>{data.h}</h3><p>{data.text}</p><div className="flip-ex">{data.ex}</div></div>
+</div>
+</div>
+);
+}
+
+// ══════════ STEPPER ══════════
+const STEPS = [
+{ num:'01', nav:'Schulen sammeln', icon:'🏫', h:'Schulen in Deutschland machen mit', text:'Klassen in Deutschland stellen eine Sammelbox auf - für neue oder gebrauchsfähige Stifte, Hefte, Lineale und Bücher. Das Material wird am Ende des Schuljahres gesammelt und über eine Partnerorganisation an Schulen in Entwicklungsländern geschickt.', tag:'🏫 Schüler helfen Schülern' },
+{ num:'02', nav:'NGO vermittelt', icon:'🤝', h:'Partnerorganisation vermittelt', text:'Sponsor a Smile arbeitet mit lokalen NGOs zusammen (z.B. Bildung ohne Grenzen e.V.), die genau wissen, welche Schulen was brauchen. Das Material kommt genau da an, wo es gebraucht wird - nachverfolgbar für jede teilnehmende Klasse.', tag:'100 % transparent' },
+{ num:'03', nav:'Brieffreundschaft', icon:'✉️', h:'Brieffreundschaft & Austausch', text:'Parallel zum Paket schreiben die Klassen Briefe auf Englisch. Die Kinder vor Ort antworten mit einem Handbrief oder Foto zurück. So entsteht eine echte, persönliche Verbindung zwischen zwei Klassen auf verschiedenen Seiten der Welt - nicht nur ein anonymer Austausch.', tag:'Echte Verbindung' },
+{ num:'04', nav:'Wirkung', icon:'🌱', h:'Langfristige Wirkung', text:'Wenn immer mehr Schulen mitmachen, entsteht ein Schneeballeffekt. Mehr Kinder weltweit haben Zugang zu Schulmaterial. Und die deutschen Klassen lernen über globale Ungleichheit und soziale Gerechtigkeit - Bildung in beide Richtungen.', tag:'🌍 Skalierbar' }
+];
+function Stepper() {
+const [idx, setIdx] = useState(0);
+const s = STEPS[idx];
+return (
+<div className="stepper">
+<nav className="step-nav">
+{STEPS.map((st,i)=>(
+<button key={i} className={`snav-btn${i===idx?' on':''}`} onClick={()=>setIdx(i)}>
+<div className="snav-num">{st.num}</div>
+<span className="snav-lbl">{st.nav}</span>
+</button>
+))}
+</nav>
+<div key={idx} className="step-card">
+<div><div className="step-bnum">{s.num}</div><h3>{s.icon} {s.h}</h3><p>{s.text}</p></div>
+<div className="step-btm">
+<span className="step-tag">{s.tag}</span>
+<button className="step-next" onClick={()=>setIdx((idx+1)%STEPS.length)}>{idx<STEPS.length-1?'Weiter ':'↩ Von vorne'}</button>
+</div>
+</div>
+</div>
+);
+}
+
+// ══════════ ACCORDION ══════════
+function AccItem({q,a}) {
+const [o, setO] = useState(false);
+const ref = useRef();
+useEffect(() => { if(ref.current) ref.current.style.maxHeight = o ? ref.current.scrollHeight+'px' : '0'; }, [o]);
+return (
+<div className={`acc-item${o?' open':''}`}>
+<button className="acc-trg" onClick={()=>setO(x=>!x)}><h4>{q}</h4><span className="acc-ico">+</span></button>
+<div className="acc-body" ref={ref}><p>{a}</p></div>
+</div>
+);
+}
+
+// ══════════ CONTACT FORM ══════════
+function ContactForm() {
+const [status, setStatus] = useState('idle');
+const [v, setV] = useState({name:'',email:'',schule:'',betreff:'',msg:''});
+const set = k => e => setV(x=>({...x,[k]:e.target.value}));
+const submit = async e => {
+e.preventDefault(); setStatus('sending');
+try {
+const res = await fetch('https://formspree.io/f/xgonlllv',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:v.name,email:v.email,schule:v.schule,betreff:v.betreff,message:v.msg})});
+if(res.ok) setStatus('ok'); else setStatus('err');
+} catch { setStatus('err'); }
+};
+if(status==='ok') return <div className="form-box"><h3>-� Schreib uns</h3><div className="f-msg ok" style={{marginTop:20}}>✅ Danke! Wir melden uns bald.</div></div>;
+return (
+<div className="form-box">
+<h3>-� Schreib uns</h3>
+<p className="form-note">Direkt an unser Team - wir antworten so schnell wir können.</p>
+<form onSubmit={submit}>
+<div className="f-row">
+<div className="f-grp"><label>Name *</label><input type="text" value={v.name} onChange={set('name')} placeholder="z.B. Max Mustermann" required/></div>
+<div className="f-grp"><label>E-Mail *</label><input type="email" value={v.email} onChange={set('email')} placeholder="deine@email.de" required/></div>
+</div>
+<div className="f-grp"><label>Schule (optional)</label><input type="text" value={v.schule} onChange={set('schule')} placeholder="Schulname und Ort"/></div>
+<div className="f-grp"><label>Ich möchte…</label>
+<select value={v.betreff} onChange={set('betreff')}>
+<option value="">Bitte wählen</option>
+<option>Mit meiner Klasse mitmachen</option>
+<option>Material beisteuern</option>
+<option>Mehr Infos</option>
+<option>Sonstiges</option>
+</select>
+</div>
+<div className="f-grp"><label>Nachricht *</label><textarea rows={4} value={v.msg} onChange={set('msg')} placeholder="Was möchtest du uns mitteilen?" required/></div>
+<div className="f-foot">
+<span className="f-priv">* Pflichtfelder. Deine Daten werden nicht weitergegeben.</span>
+<button className="btn-submit" type="submit" disabled={status==='sending'}>{status==='sending'?'Wird gesendet…':'Senden ✉'}</button>
+</div>
+{status==='err' && <div className="f-msg err">❌ Etwas hat nicht geklappt. Bitte später nochmal versuchen.</div>}
+</form>
+</div>
+);
+}
+
+// ══════════ TIKTOK SECTION ══════════
+function TikTokSection() {
+return (
+<section id="tiktok" className="sec bg-cream">
+<div className="sec-in">
+<div className="tag rv">-� Unsere Umsetzung</div>
+<h2 className="sec-h rv">Social Media - TikTok</h2>
+<p className="sec-lead rv">Um möglichst viele Menschen auf das Thema Bildungsungerechtigkeit aufmerksam zu machen, haben wir einen TikTok-Kanal erstellt. Dort teilen wir Fakten zu SDG 4, zeigen unser Projekt und verbinden Schüler weltweit mit dem Thema.</p>
+<div className="tiktok-hero rv">
+<div className="tiktok-logo">🎵</div>
+<div className="tiktok-hero-text">
+<h3>Unser TikTok-Kanal</h3>
+<p>TikTok ist die Plattform, auf der Schüler in unserem Alter am aktivsten sind. Mit kurzen, ehrlichen Videos über SDG 4 und unser Projekt erreichen wir dort mehr Menschen als mit jedem Plakat - und das kostet nichts außer einem Handy und ein bisschen Zeit.</p>
+<a className="tiktok-handle" href="https://tiktok.com/@sponsorasmile" target="_blank">
+🎵 @sponsorasmile.de
+</a>
+</div>
+</div>
+<div className="hl-strip rv" style={{marginTop:0}}>
+<div className="hl-pt"><strong>🎯 Ziel</strong><span>Aufmerksamkeit für SDG 4 erzeugen und andere Schulen inspirieren, selbst aktiv zu werden.</span></div>
+<div className="hl-pt"><strong>-� Format</strong><span>Kurze Videos auf TikTok - Fakten, Behind-the-Scenes und Updates zu unserem Projekt.</span></div>
+<div className="hl-pt"><strong>-- Vernetzt</strong><span>Link zur Website in der Bio - TikTok und Website ergänzen sich gegenseitig.</span></div>
+<div className="hl-pt"><strong>🌍 Reichweite</strong><span>Jedes geteilte Video kann andere Klassen und Schulen erreichen - Bildung in beide Richtungen.</span></div>
+</div>
+</div>
+</section>
+);
+}
+
+// ══════════ APP ══════════
+function App() {
+const SECTIONS = ['problem','huerden','idee','quiz','stimmen','tiktok','mitmachen','ueber-uns'];
+const ANCHORS  = ['#problem','#huerden','#idee','#quiz','#stimmen','#tiktok','#mitmachen','#ueber-uns'];
+const NAV_LABELS = ['Das Problem','Die Hürden','Unsere Idee','Quiz','Stimmen','TikTok','Mitmachen','Über uns'];
+const active = useActive(SECTIONS);
+const tw = useTypewriter(['ein Menschenrecht.','der Weg aus der Armut.','die Zukunft.','für alle da.']);
+useReveal();
+useScrollProgress();
+
+const FLIPS = [
+{ icon:'🏛️', h:'Politik', text:'Viele Regierungen ärmerer Länder haben kein Geld für Bildung - andere geben es aus, aber Korruption verhindert, dass es ankommt. Reiche Länder geben Entwicklungshilfe, aber oft zu wenig gezielt.', ex:'� Deutschland gab 2020 erstmals Milliarden für Digitalbildung aus - aber viele Schulen wussten nicht wie sie Mittel beantragen sollten.' },
+{ icon:'🏢', h:'Wirtschaft', text:'Firmen investieren lieber da, wo es schon Infrastruktur gibt - ein Teufelskreis. Manche Unternehmen profitieren sogar davon, dass Kinder als billige Arbeitskräfte eingesetzt werden.', ex:'� Fakt: 160 Mio. Kinder arbeiten weltweit - statt in die Schule zu gehen.' },
+{ icon:'🤝', h:'NGOs', text:'Organisationen wie UNICEF leisten viel - aber sie brauchen Unterstützung von außen. Lokale Gruppen kennen die Probleme vor Ort am besten, haben aber kaum Ressourcen.', ex:'� „Bildung ohne Grenzen e.V." - eine deutsche NGO, mit der Schulen direkt kooperieren können.' },
+{ icon:'👨‍👩‍👧', h:'Familien', text:'Manchmal fehlt das Geld für Schulgebühren, Uniformen oder Hefte. Das ist keine Faulheit - das ist bittere Armut. Bildung ist der Ausweg aus der Armut - aber Armut versperrt ihn.', ex:'Paradox: Bildung ist der Weg aus der Armut - aber Armut hält Kinder von Bildung fern.' }
+];
+
+const scroll = a => document.querySelector(a)?.scrollIntoView({behavior:'smooth'});
+
+return (
+<>
+<div id="prog"/>
+  {/* NAV */}
+  <nav className="nav" id="navbar">
+    <a href="#hero" className="nav-logo"><img src="Bilder/logo copy.png" alt="Sponsor a Smile"/></a>
+    <ul className="nav-links">
+      {NAV_LABELS.map((n,i)=><li key={i}><a href={ANCHORS[i]} className={active===SECTIONS[i]?'active':''}>{n}</a></li>)}
+    </ul>
+    <div className="lang-toggle">
+      <span style={{fontSize:12,color:'rgba(92,37,48,.6)',fontWeight:600}}>DE | EN</span>
+    </div>
+  </nav>
+
+  {/* HERO */}
+  <section id="hero" className="hero">
+    <HeroCanvas/>
+    <div className="hero-body">
+      <div className="hero-badge"><span className="badge-n">4</span>UN Nachhaltigkeitsziel</div>
+      <h1 className="hero-h1">Bildung ist<br/><em><span className="tw-wrap"><span>{tw}</span><span className="cursor"/></span></em></h1>
+      <p className="hero-sub">Sponsor a Smile verbindet Schüler in Deutschland mit Kindern weltweit, die keinen Zugang zu hochwertiger Bildung haben - durch konkrete, direkte Hilfe und echte Verbindungen.</p>
+      <div className="hero-btns">
+        <button className="btn-red" onClick={()=>scroll('#idee')}>Unsere Idee </button>
+        <button className="btn-outline" onClick={()=>scroll('#mitmachen')}>Mitmachen</button>
+      </div>
+    </div>
+    <div className="scroll-hint">
+      <svg width="14" height="22" viewBox="0 0 14 22" fill="none"><rect x="1" y="1" width="12" height="20" rx="6" stroke="white" strokeWidth="1.5"/><circle cx="7" cy="7" r="2" fill="white"><animate attributeName="cy" values="6;13;6" dur="1.5s" repeatCount="indefinite"/></circle></svg>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <StatsStrip/>
+
+  {/* PROBLEM */}
+  <section id="problem" className="sec bg-cream">
+    <div className="sec-in">
+      <div className="tag rv">🎯 UN-Ziel 4</div>
+      <h2 className="sec-h rv">Das Problem</h2>
+      <p className="sec-lead rv">Stell dir vor, du kannst morgen nicht in die Schule - nicht weil du keine Lust hast, sondern weil es einfach keine gibt. Für fast 250 Millionen Kinder ist das Realität.</p>
+      <div className="tab-bar rv" id="tabBar">
+        {['-� Was ist SDG 4?','🌍 Globale Lage','🇩🇪 In Deutschland'].map((tb,i)=>(
+          <button key={i} className={`tab-btn${i===0?' on':''}`} onClick={e=>{
+            document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
+            document.querySelectorAll('.tab-panel').forEach(p=>p.style.display='none');
+            e.target.classList.add('on');
+            document.getElementById('tp-'+i).style.display='block';
+          }}>{tb}</button>
+        ))}
+      </div>
+      <div id="tp-0" className="tab-panel">
+        <div className="sdg-box rv">
+          <div className="sdg-num">4</div>
+          <div className="sdg-txt">
+            <h3>Hochwertige Bildung - Was fordert die UN?</h3>
+            <p>2015 haben 193 Länder die 17 Sustainable Development Goals (SDGs) verabschiedet. Ziel Nr. 4 heißt „Hochwertige Bildung für alle" und fordert:</p>
+            <div className="sdg-goals">
+              {['Kostenlose Grundschulbildung für alle Kinder','Gleicher Zugang für Mädchen und Jungen','Zugang zu Berufsausbildung und Hochschulen','Ausreichend Lehrer und Schulgebäude'].map((g,i)=><div key={i} className="sdg-goal">{g}</div>)}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="tp-1" className="tab-panel" style={{display:'none'}}>
+        <div className="two-col">
+          <div className="card rv"><div className="card-ico">🌍</div><h3>Zahlen, die erschrecken</h3><p>Fast 250 Millionen Kinder gehen weltweit nicht zur Schule - besonders in Teilen Afrikas, Südostasiens und im Nahen Osten. Dort fehlen Schulgebäude, ausgebildete Lehrkräfte und einfachste Materialien.</p><div className="pills"><div className="pill">250 Mio.<span>Kinder ohne Schule</span></div><div className="pill">64%<span>in Subsahara-Afrika</span></div></div></div>
+          <div className="card rv rv1"><div className="card-ico">�</div><h3>Mädchen besonders betroffen</h3><p>In vielen Regionen dürfen Mädchen gar nicht erst zur Schule - kulturelle Normen, frühe Heirat oder die Pflicht, zuhause zu helfen, halten sie fern. Dabei wäre Bildung für Mädchen der effektivste Weg, ganze Gemeinschaften aus der Armut zu heben.</p></div>
+        </div>
+      </div>
+      <div id="tp-2" className="tab-panel" style={{display:'none'}}>
+        <div className="two-col">
+          <div className="card rv"><div className="card-ico">🇩🇪</div><h3>Schulpflicht - aber nicht gleich</h3><p>In Deutschland ist Schulpflicht, aber in kaum einem anderen OECD-Land hängt der Bildungserfolg so stark von der sozialen Herkunft ab. Kinder aus armen Familien haben statistisch viel schlechtere Chancen auf einen Gymnasialabschluss.</p><div className="pills"><div className="pill">1 von 3<span>arme Kinder auf Gymnasium</span></div></div></div>
+          <div className="card rv rv1"><div className="card-ico">�</div><h3>Digitale Spaltung</h3><p>Nicht jede Schule hat genug Tablets oder WLAN. Kinder in armen Stadtteilen haben oft weniger digitale Möglichkeiten. Die Corona-Pandemie hat das besonders deutlich gemacht.</p><div className="pills"><div className="pill">~50.000<span>Schüler p.a. ohne Abschluss</span></div></div></div>
+        </div>
+      </div>
+      <div className="rv" style={{marginTop:36}}>
+        <div className="vid-ph" style={{maxWidth:'100%',aspectRatio:'16/9'}}>
+          <div className="vid-play">�</div>
+          <p>Video einfügen: z.B. UNICEF-Doku zu SDG4</p>
+          <code>&lt;iframe src="https://www.youtube.com/embed/VIDEO_ID"...&gt;</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* HÜRDEN */}
+  <section id="huerden" className="sec bg-red">
+    <div className="sec-in">
+      <div className="tag lt rv">🚧 Warum ist es so schwer?</div>
+      <h2 className="sec-h wh rv">Die Hürden</h2>
+      <p className="sec-lead wh rv">Das Problem liegt nicht daran, dass es keine Lösungen gibt - sondern dass viele Akteure gleichzeitig handeln müssten. <strong style={{color:'rgba(255,255,255,.95)'}}>Klicke die Karten um!</strong></p>
+      <div className="flip-grid">
+        {FLIPS.map((f,i)=><FlipCard key={i} data={f}/>)}
+      </div>
+    </div>
+  </section>
+
+  {/* IDEE */}
+  <section id="idee" className="sec bg-cream">
+    <div className="sec-in">
+      <div className="tag rv">� Unser Lösungsansatz</div>
+      <h2 className="sec-h rv">Unsere Idee</h2>
+      <p className="sec-lead rv">„Sponsor a Smile" - Schüler in Deutschland sammeln Schulbedarf für Kinder weltweit, die ihn wirklich brauchen. Einfach, direkt, mit einer echten Verbindung.</p>
+      <div className="rv"><Stepper/></div>
+      <div className="hl-strip rv">
+        {[{s:'Schüler helfen Schülern',t:'Glaubwürdiger und motivierender als jede andere Hilfsaktion.'},{s:'Transparent & direkt',t:'Man sieht, wem man hilft - keine anonyme Nummer irgendwo.'},{s:'Brieffreundschaft',t:'Eine echte Verbindung zwischen zwei Klassen auf verschiedenen Seiten der Welt.'},{s:'Bildung in beide Richtungen',t:'Auch die Sammler lernen - über globale Ungleichheit.'}].map((p,i)=>(
+          <div key={i} className="hl-pt"><strong>{p.s}</strong><span>{p.t}</span></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* QUIZ */}
+  <section id="quiz" className="sec bg-dark">
+    <div className="sec-in">
+      <div className="tag lt rv" style={{display:'flex',justifyContent:'center'}}>🧠 Teste dein Wissen</div>
+      <h2 className="sec-h wh c rv">SDG4 Quiz</h2>
+      <p className="sec-lead wh c rv">Wie gut kennst du das Thema? Beantworte 4 Fragen und sieh wie gut du abschneidest.</p>
+      <div className="rv"><Quiz/></div>
+    </div>
+  </section>
+
+  {/* STIMMEN */}
+  <section id="stimmen" className="sec bg-cream">
+    <div className="sec-in">
+      <div className="tag rv">�️ Was andere sagen</div>
+      <h2 className="sec-h rv">Stimmen</h2>
+      <p className="sec-lead rv">Bildungsungerechtigkeit betrifft echte Menschen. Hier sind Stimmen, die zeigen, warum das Thema so wichtig ist.</p>
+      <div className="rv"><Carousel/></div>
+      <h3 className="rv" style={{fontFamily:'var(--font-d)',fontSize:'clamp(18px,2.2vw,26px)',fontWeight:700,margin:'52px 0 22px',textAlign:'center',width:'100%'}}>Schau selbst:</h3>
+      <div className="vid-grid">
+        {[{l:'Malala Yousafzais Rede vor den UN (2013)',c:'youtube.com/watch?v=3rNMFNOMmFo'},{l:'UNICEF - Schulkinder in Afrika',c:' UNICEF YouTube: „education"'},{l:'⭐ Unser eigenes Projekt-Video',c:'<iframe src="youtube.com/embed/EURE_ID">'}].map((v,i)=>(
+          <div key={i} className={`rv rv${i}`}>
+            <div className="vid-ph"><div className="vid-play">�</div><p>{v.l}</p><code>{v.c}</code></div>
+          </div>
+        ))}
+      </div>
+      <div className="rv" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:14,marginTop:40}}>
+        {['Schulkinder vor Ort','Unterricht ohne Bücher','NGO-Arbeit vor Ort','Unsere Sammelbox'].map((lbl,i)=>(
+          <div key={i} className="img-ph" style={{aspectRatio:'4/3'}}><span className="pico">-�</span><span>{lbl}</span></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* TIKTOK */}
+  <TikTokSection/>
+
+  {/* MITMACHEN */}
+  <section id="mitmachen" className="sec bg-red">
+    <div className="sec-in">
+      <div className="tag lt rv">✊ Werde Teil davon</div>
+      <h2 className="sec-h wh rv">Mitmachen</h2>
+      <p className="sec-lead wh rv">Ihr wollt, dass Sponsor a Smile an eurer Schule startet? Oder ihr habt Fragen oder Ideen? Schreibt uns direkt.</p>
+      <div className="contact-only rv"><ContactForm/></div>
+    </div>
+  </section>
+
+  {/* ÜBER UNS */}
+  <section id="ueber-uns" className="sec bg-cream">
+    <div className="sec-in">
+      <div className="tag rv">� Wer wir sind</div>
+      <h2 className="sec-h rv">Über uns</h2>
+      <p className="sec-lead rv">Wir sind drei Schüler der Klasse 9a und haben Sponsor a Smile als Schulprojekt zum UN-Nachhaltigkeitsziel 4 - Hochwertige Bildung - entwickelt.</p>
+      <div className="team-grid">
+        <div className="team-card rv">
+          <div className="t-av">�</div>
+          <h3>[Dein Name]</h3>
+          <div className="role">Website & Design</div>
+          <p>Hat die komplette Website entwickelt und designed - vom Hero-Bereich mit Partikelanimation bis zum interaktiven Quiz und dem Kontaktformular. Verantwortlich für den technischen Aufbau des Projekts.</p>
+        </div>
+        <div className="team-card rv rv1">
+          <div className="t-av">🎬</div>
+          <h3>Nesimi & Aladin</h3>
+          <div className="role">Video & TikTok</div>
+          <p>Zuständig für alle Videos - von der Idee über das Drehen bis zum Schnitt. Haben den TikTok-Kanal aufgebaut und die Video-Strategie entwickelt, damit unser Projekt möglichst viele Menschen erreicht.</p>
+        </div>
+        <div className="team-card rv rv2">
+          <div className="t-av">✍️</div>
+          <h3>Friedrich</h3>
+          <div className="role">Texte & Recherche</div>
+          <p>Hat alle Texte auf der Website geschrieben und die Recherche zu SDG 4 durchgeführt. Zuständig für Quellen, Fakten und die Ausarbeitung der Reflexion. Hat auch die Kontaktanfrage an Partnerorganisationen verfasst.</p>
+        </div>
+      </div>
+
+      <h3 className="rv" style={{fontFamily:'var(--font-d)',fontSize:'clamp(19px,2.2vw,26px)',fontWeight:800,marginBottom:20,width:'100%'}}>Was wir gelernt haben</h3>
+      <div className="acc rv">
+        {[
+          { q:'Warum hat uns das Thema überrascht?', a:'Als wir mit dem Projekt angefangen haben, wussten wir natürlich, dass Bildung wichtig ist - aber die Zahlen haben uns dann doch überrascht. 250 Millionen Kinder ohne Schule? Das ist für uns schwer vorstellbar. Besonders hat uns beschäftigt, wie nah das Thema auch an uns selbst rankommt: Auch in Deutschland ist Bildungsgerechtigkeit kein gelöstes Problem. Kinder aus ärmeren Familien haben statistisch viel schlechtere Chancen - das fanden wir wirklich krass.' },
+          { q:'Wie ist die Idee zu Sponsor a Smile entstanden?', a:'Am Anfang wollten wir einfach etwas tun - aber dann haben wir gemerkt, dass eine abstrakte Idee nicht reicht. Die Idee mit der Brieffreundschaft kam uns, als wir darüber nachgedacht haben, was uns selbst berühren würde. Nicht einfach etwas hinschicken und nie wissen was damit passiert - sondern eine echte Verbindung. Ein Foto, ein Brief, ein Name. Das macht den Unterschied.' },
+          { q:'Was hat das Projekt mit sozialer Gerechtigkeit zu tun?', a:'Soziale Gerechtigkeit und ökologische Weitsicht hängen direkt zusammen: Wer keine Bildung hat, kann keine informierten Entscheidungen für den Klimaschutz treffen. Bildung ist nicht nur gut für den Einzelnen - sie ist gut für den Planeten. Unser Projekt ist damit ein Beitrag zu beidem. Und wir finden: Wenn man als Schüler etwas beitragen kann, sollte man es auch tun.' }
+        ].map((item,i)=><AccItem key={i} q={item.q} a={item.a}/>)}
+      </div>
+
+      <div className="sources rv" style={{width:'100%'}}>
+        <h3>-� Quellen</h3>
+        <ul>
+          <li><strong>UNESCO Institute for Statistics (2024):</strong> Global Education Monitoring Report - <a href="https://uis.unesco.org" target="_blank">uis.unesco.org</a></li>
+          <li><strong>Vereinte Nationen - SDG 4:</strong> Sustainable Development Goals, Ziel 4 - <a href="https://sdgs.un.org/goals/goal4" target="_blank">sdgs.un.org/goals/goal4</a></li>
+          <li><strong>UNICEF Deutschland:</strong> Bildung weltweit - <a href="https://www.unicef.de/informieren/themen/bildung" target="_blank">unicef.de/themen/bildung</a></li>
+          <li><strong>Bundeszentrale für politische Bildung (bpb):</strong> Bildungsungleichheit in Deutschland - <a href="https://www.bpb.de/themen/bildung/dossier-bildung" target="_blank">bpb.de/themen/bildung</a></li>
+          <li><strong>Bertelsmann Stiftung (2023):</strong> Chancenspiegel - Zur Chancengerechtigkeit im deutschen Schulsystem - <a href="https://www.bertelsmann-stiftung.de" target="_blank">bertelsmann-stiftung.de</a></li>
+          <li><strong>Internationales Arbeitsamt ILO (2022):</strong> Global Estimates of Child Labour - <a href="https://www.ilo.org/global/topics/child-labour" target="_blank">ilo.org/child-labour</a></li>
+          <li><strong>Georg Kraus Stiftung:</strong> 2. Schulpreis - „Sei genial, denk global!" - <a href="https://www.georg-kraus-stiftung.de" target="_blank">georg-kraus-stiftung.de</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {/* FOOTER */}
+  <footer className="footer">
+    <div className="footer-in">
+      <div className="footer-logo"><img src="Bilder/logo copy.png" alt="Sponsor a Smile"/></div>
+      <div className="footer-links">
+        {['Das Problem','Die Hürden','Unsere Idee','Quiz','Stimmen','TikTok','Mitmachen','Über uns'].map((l,i)=>(
+          <a key={i} href={ANCHORS[i]}>{l}</a>
+        ))}
+      </div>
+      <p className="footer-copy">© 2026 Sponsor a Smile - Klasse 9a · Projektarbeit zu SDG 4 der UN</p>
+    </div>
+  </footer>
+</>
+);
+}
+
+window.addEventListener('scroll', ()=>{ const n=document.getElementById('navbar'); if(n) n.classList.toggle('scrolled', window.scrollY>60); });
+window.addEventListener('load', ()=>{
+if(window.formbutton) window.formbutton('create',{action:'https://formspree.io/f/xgonlllv',title:'Schreib uns!',fields:[{type:'email',label:'E-Mail:',name:'email',required:true,placeholder:'deine@email.de'},{type:'text',label:'Name:',name:'name',placeholder:'Dein Name'},{type:'textarea',label:'Nachricht:',name:'message',placeholder:'Was möchtest du sagen?'},{type:'submit',value:'Senden'}],styles:{title:{backgroundColor:'#ba2536'},button:{backgroundColor:'#ba2536'}}});
+});
+
+const ANCHORS = ['#problem','#huerden','#idee','#quiz','#stimmen','#tiktok','#mitmachen','#ueber-uns'];
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+</body>
+</html>

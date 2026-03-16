@@ -1,179 +1,933 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sponsor a Smile</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sponsor a Smile - Bildung für alle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,800;0,9..144,900;1,9..144,300;1,9..144,400&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://formspree.io/js/formbutton-v1.min.js" defer></script>
+<style>
+:root{
+  --red:#ba2536;--red-d:#8c1a27;--red-l:#fbeced;
+  --cream:#fdfaf5;--dark:#160b0d;--mid:#5c2530;
+  --font-d:'Fraunces',Georgia,serif;--font-b:'DM Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(.22,.68,0,1.2);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--cream);color:var(--dark);overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:var(--font-b)}
+img{display:block;max-width:100%}
+
+#prog{position:fixed;top:0;left:0;height:3px;background:var(--red);z-index:9999;transition:width .1s linear}
+
+/* NAV */
+.nav{position:fixed;top:3px;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,60px);height:100px;transition:background .3s,box-shadow .3s,backdrop-filter .3s}
+.nav.scrolled{background:rgba(253,250,245,.94);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(186,37,54,.1)}
+.nav-logo img{height:100px;transition:transform .3s var(--ease)}
+.nav-logo:hover img{transform:scale(1.05)}
+.nav-links{display:flex;gap:clamp(2px,1.3vw,18px);list-style:none;align-items:center}
+.nav-links a{font-size:clamp(10px,1.1vw,13px);font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mid);padding:6px 9px;border-radius:6px;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:2px;left:9px;right:9px;height:2px;background:var(--red);border-radius:2px;transform:scaleX(0);transition:transform .25s var(--ease)}
+.nav-links a.active,.nav-links a:hover{color:var(--red)}
+.nav-links a.active::after,.nav-links a:hover::after{transform:scaleX(1)}
+.lang-toggle{display:flex;align-items:center;gap:6px}
+.lang-btn{background:none;border:none;font-size:12px;font-weight:700;color:#bbb;padding:5px 9px;border-radius:6px;transition:color .2s,background .2s;letter-spacing:.07em}
+.lang-btn.on{color:var(--red);background:var(--red-l)}
+.sep{color:#ddd;font-size:12px}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--dark)}
+#hc{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.hero-body{position:relative;z-index:2;text-align:center;padding:140px clamp(20px,5vw,80px) 70px;max-width:860px}
+.hero-badge{display:inline-flex;align-items:center;gap:9px;background:rgba(186,37,54,.22);border:1px solid rgba(186,37,54,.4);color:#ffb3ba;padding:7px 18px;border-radius:30px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:28px;backdrop-filter:blur(4px)}
+.badge-n{background:var(--red);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900}
+.hero-h1{font-family:var(--font-d);font-size:clamp(30px,6vw,82px);font-weight:900;color:#fff;line-height:1.08;letter-spacing:-.025em;margin-bottom:24px}
+.hero-h1 em{font-style:italic;color:#ff8a95}
+.tw-wrap{min-height:1.08em;display:inline-flex;align-items:center}
+.cursor{display:inline-block;width:3px;height:.82em;background:#ff8a95;margin-left:3px;border-radius:2px;animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.hero-sub{font-size:clamp(14px,1.7vw,19px);color:rgba(255,255,255,.7);line-height:1.7;max-width:600px;margin:0 auto 36px}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-red{background:var(--red);color:#fff;padding:14px 30px;border-radius:50px;border:none;font-size:14px;font-weight:700;transition:background .2s,transform .2s var(--ease),box-shadow .2s;box-shadow:0 4px 22px rgba(186,37,54,.4)}
+.btn-red:hover{background:#d42c40;transform:translateY(-2px) scale(1.03);box-shadow:0 8px 30px rgba(186,37,54,.5)}
+.btn-outline{background:transparent;color:#fff;padding:13px 28px;border-radius:50px;border:2px solid rgba(255,255,255,.3);font-size:14px;font-weight:700;transition:border-color .2s,background .2s,transform .2s var(--ease)}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.08);transform:translateY(-2px)}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,.35);font-size:10px;letter-spacing:.12em;text-transform:uppercase;animation:bob 2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* STATS */
+.stats{background:var(--red);display:flex;flex-wrap:wrap;justify-content:center}
+.stat-blk{flex:1;min-width:160px;padding:32px 24px;text-align:center;position:relative}
+.stat-blk:not(:last-child)::after{content:'';position:absolute;right:0;top:22%;bottom:22%;width:1px;background:rgba(255,255,255,.18)}
+.stat-blk .n{font-family:var(--font-d);font-size:clamp(30px,4.5vw,54px);font-weight:900;color:#fff;line-height:1}
+.stat-blk .u{color:rgba(255,255,255,.65);font-weight:700;font-size:.65em}
+.stat-blk .lbl{display:block;margin-top:5px;font-size:clamp(11px,1vw,13px);color:rgba(255,255,255,.7);line-height:1.4;max-width:130px;margin-inline:auto}
+
+/* SECTIONS */
+.sec{padding:clamp(64px,9vw,130px) clamp(20px,5vw,80px)}
+.sec-in{max-width:1080px;margin:0 auto}
+.tag{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);background:var(--red-l);padding:5px 13px;border-radius:20px;margin-bottom:16px}
+.tag.lt{background:rgba(255,255,255,.18);color:rgba(255,255,255,.9)}
+.sec-h{font-family:var(--font-d);font-size:clamp(28px,5vw,64px);font-weight:900;line-height:1.08;letter-spacing:-.02em;margin-bottom:18px}
+.sec-h.wh{color:#fff}.sec-h.c{text-align:center}
+.sec-lead{font-size:clamp(15px,1.7vw,20px);line-height:1.65;color:var(--mid);max-width:660px;margin-bottom:48px}
+.sec-lead.c{text-align:center;margin-inline:auto}.sec-lead.wh{color:rgba(255,255,255,.82)}
+.bg-cream{background:var(--cream)}.bg-red{background:var(--red)}.bg-dark{background:var(--dark)}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .55s ease,transform .55s ease}
+.rv.in{opacity:1;transform:translateY(0)}
+.rv1{transition-delay:.1s}.rv2{transition-delay:.2s}.rv3{transition-delay:.3s}
+
+/* TABS */
+.tab-bar{display:flex;gap:5px;flex-wrap:wrap;background:var(--red-l);padding:5px;border-radius:14px;margin-bottom:36px}
+.tab-btn{flex:1;min-width:110px;background:transparent;border:none;padding:11px 16px;border-radius:10px;font-size:13px;font-weight:700;color:var(--mid);transition:background .2s,color .2s,transform .2s var(--ease);white-space:nowrap}
+.tab-btn:hover{color:var(--red)}
+.tab-btn.on{background:#fff;color:var(--red);box-shadow:0 2px 12px rgba(186,37,54,.15);transform:scale(1.02)}
+.tab-panel{animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* SDG BOX */
+.sdg-box{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start;background:#fff;border-radius:18px;padding:28px;border:2px solid var(--red-l);box-shadow:0 3px 24px rgba(186,37,54,.06)}
+.sdg-num{width:72px;height:72px;border-radius:14px;background:var(--red);color:#fff;font-family:var(--font-d);font-size:40px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.sdg-txt h3{font-family:var(--font-d);font-size:clamp(16px,1.8vw,21px);font-weight:800;margin-bottom:10px}
+.sdg-txt p{font-size:14px;line-height:1.7;color:var(--mid);margin-bottom:14px}
+.sdg-goals{display:flex;flex-direction:column;gap:7px}
+.sdg-goal{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--mid);font-weight:500}
+.sdg-goal::before{content:'-';width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* CARDS */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.card{background:#fff;border-radius:18px;padding:26px 24px;border:2px solid var(--red-l);box-shadow:0 2px 16px rgba(186,37,54,.05);transition:transform .25s var(--ease),box-shadow .25s}
+.card:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(186,37,54,.12)}
+.card-ico{font-size:2.1rem;margin-bottom:12px}
+.card h3{font-family:var(--font-d);font-size:clamp(16px,1.8vw,21px);font-weight:800;margin-bottom:9px}
+.card p{font-size:14px;line-height:1.7;color:var(--mid)}
+.pills{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.pill{background:var(--red);color:#fff;padding:7px 12px;border-radius:9px;font-size:12px;font-weight:700}
+.pill span{display:block;font-size:11px;font-weight:400;opacity:.85}
+
+/* FLIP CARDS */
+.flip-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
+.flip-card{height:270px;perspective:1000px;cursor:pointer}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-f,.flip-b{position:absolute;inset:0;border-radius:18px;padding:26px 22px;backface-visibility:hidden;display:flex;flex-direction:column;justify-content:center}
+.flip-f{background:rgba(255,255,255,.11);border:2px solid rgba(255,255,255,.18);align-items:center;text-align:center}
+.flip-b{background:#fff;border:2px solid var(--red-l);transform:rotateY(180deg);justify-content:space-between}
+.flip-ico{font-size:2.8rem;margin-bottom:13px}
+.flip-f h3{color:#fff;font-size:clamp(16px,1.8vw,20px);font-weight:800}
+.flip-f .hint{color:rgba(255,255,255,.45);font-size:11px;margin-top:10px}
+.flip-b h3{color:var(--red);font-size:15px;font-weight:800;margin-bottom:9px}
+.flip-b p{color:var(--mid);font-size:13px;line-height:1.65;flex:1}
+.flip-ex{background:var(--red-l);color:var(--red);border-radius:8px;padding:7px 11px;font-size:12px;line-height:1.5;margin-top:10px}
+
+/* STEPPER */
+.stepper{display:grid;grid-template-columns:1fr 2.8fr;gap:28px;align-items:start}
+.step-nav{display:flex;flex-direction:column;gap:6px}
+.snav-btn{display:flex;align-items:center;gap:12px;background:transparent;border:none;padding:14px 16px;border-radius:12px;text-align:left;transition:background .2s,transform .2s var(--ease);color:var(--mid);width:100%}
+.snav-btn:hover{background:var(--red-l);color:var(--red)}
+.snav-btn.on{background:var(--red);color:#fff;transform:scale(1.03);box-shadow:0 4px 18px rgba(186,37,54,.3)}
+.snav-num{width:34px;height:34px;border-radius:50%;background:rgba(186,37,54,.12);color:var(--red);font-family:var(--font-d);font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s,color .2s}
+.snav-btn.on .snav-num{background:rgba(255,255,255,.22);color:#fff}
+.snav-lbl{font-size:13px;font-weight:700}
+.step-card{background:var(--dark);border-radius:22px;padding:clamp(26px,4vw,44px);color:#fff;min-height:300px;display:flex;flex-direction:column;justify-content:space-between;animation:fadeUp .35s ease}
+.step-bnum{font-family:var(--font-d);font-size:72px;font-weight:900;color:rgba(255,255,255,.06);line-height:1;margin-bottom:-14px}
+.step-card h3{font-family:var(--font-d);font-size:clamp(20px,2.3vw,28px);font-weight:800;margin-bottom:14px;color:#fff}
+.step-card p{font-size:15px;line-height:1.7;color:rgba(255,255,255,.76)}
+.step-btm{margin-top:24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.step-tag{background:rgba(186,37,54,.28);border:1px solid rgba(186,37,54,.45);color:#ff8a95;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700}
+.step-next{margin-left:auto;background:var(--red);color:#fff;border:none;padding:9px 20px;border-radius:18px;font-size:13px;font-weight:700;transition:background .2s,transform .2s var(--ease)}
+.step-next:hover{background:#d42c40;transform:scale(1.07)}
+.hl-strip{background:var(--red);border-radius:18px;padding:28px 32px;margin-top:36px;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:22px}
+.hl-pt strong{display:block;color:#fff;font-size:14px;font-weight:800;margin-bottom:5px}
+.hl-pt span{color:rgba(255,255,255,.8);font-size:13px;line-height:1.5}
+
+/* QUIZ */
+.quiz-box{background:var(--dark);border-radius:26px;padding:clamp(28px,5vw,52px);max-width:680px;margin:0 auto}
+.qprog-wrap{margin-bottom:28px}
+.qprog-lbl{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:rgba(255,255,255,.4);margin-bottom:7px;letter-spacing:.07em;text-transform:uppercase}
+.qprog-track{height:4px;background:rgba(255,255,255,.09);border-radius:4px;overflow:hidden}
+.qprog-fill{height:100%;background:var(--red);border-radius:4px;transition:width .4s var(--ease)}
+.q-text{font-family:var(--font-d);font-size:clamp(19px,2.3vw,26px);font-weight:700;color:#fff;margin-bottom:24px;line-height:1.35}
+.q-opts{display:flex;flex-direction:column;gap:9px;margin-bottom:22px}
+.q-opt{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.1);border-radius:11px;padding:13px 18px;font-size:14px;font-weight:600;color:rgba(255,255,255,.84);text-align:left;transition:border-color .2s,background .2s,transform .15s var(--ease)}
+.q-opt:hover:not(:disabled){border-color:rgba(186,37,54,.5);background:rgba(186,37,54,.1);transform:scale(1.01)}
+.q-opt.correct{border-color:#4ade80;background:rgba(74,222,128,.14);color:#86efac}
+.q-opt.wrong{border-color:#f87171;background:rgba(248,113,113,.13);color:#fca5a5}
+.q-fb{padding:13px 16px;border-radius:10px;font-size:13px;line-height:1.55;margin-bottom:18px;animation:fadeUp .25s ease}
+.q-fb.ok{background:rgba(74,222,128,.13);color:#86efac;border:1px solid rgba(74,222,128,.28)}
+.q-fb.nope{background:rgba(248,113,113,.1);color:#fca5a5;border:1px solid rgba(248,113,113,.28)}
+.q-next{background:var(--red);color:#fff;border:none;padding:12px 26px;border-radius:22px;font-size:14px;font-weight:700;transition:background .2s,transform .2s var(--ease);animation:fadeUp .3s ease}
+.q-next:hover{background:#d42c40;transform:scale(1.04)}
+.q-result{text-align:center;animation:fadeUp .5s ease}
+.q-score{font-family:var(--font-d);font-size:clamp(48px,8vw,90px);font-weight:900;color:var(--red);line-height:1}
+.q-slbl{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:20px}
+.q-rmsg{font-family:var(--font-d);font-size:clamp(17px,2vw,22px);color:#fff;font-weight:700;margin-bottom:12px}
+.q-rtxt{font-size:14px;color:rgba(255,255,255,.68);line-height:1.6;margin-bottom:24px}
+.q-retry{background:rgba(255,255,255,.09);border:2px solid rgba(255,255,255,.18);color:#fff;padding:11px 24px;border-radius:22px;font-size:13px;font-weight:700;transition:background .2s,transform .2s var(--ease)}
+.q-retry:hover{background:rgba(255,255,255,.16);transform:scale(1.04)}
+
+/* CAROUSEL */
+.car-outer{overflow:hidden;border-radius:18px;margin-bottom:20px}
+.car-track{display:flex;transition:transform .5s cubic-bezier(.4,.2,.2,1)}
+.car-slide{min-width:100%;padding:0 3px}
+.quote-card{background:var(--red-l);border-radius:18px;padding:36px 34px;border:2px solid rgba(186,37,54,.11);position:relative;overflow:hidden}
+.quote-card::before{content:'"';font-family:var(--font-d);font-size:160px;color:rgba(186,37,54,.06);position:absolute;top:-20px;left:16px;line-height:1;pointer-events:none}
+.q-txt{font-family:var(--font-d);font-size:clamp(17px,2vw,24px);font-weight:300;font-style:italic;color:var(--dark);line-height:1.5;margin-bottom:20px;position:relative;z-index:1}
+.q-auth{display:flex;align-items:center;gap:12px}
+.q-av{width:44px;height:44px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.q-auth strong{display:block;font-size:14px}
+.q-auth span{font-size:12px;color:var(--mid)}
+.car-ctrl{display:flex;align-items:center;justify-content:center;gap:14px}
+.car-btn{width:42px;height:42px;border-radius:50%;background:var(--red-l);border:2px solid var(--red);color:var(--red);font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s,transform .2s var(--ease)}
+.car-btn:hover{background:var(--red);color:#fff;transform:scale(1.1)}
+.car-dots{display:flex;gap:7px}
+.car-dot{width:7px;height:7px;border-radius:50%;background:rgba(186,37,54,.22);border:none;transition:background .2s,transform .2s;cursor:pointer}
+.car-dot.on{background:var(--red);transform:scale(1.35)}
+
+/* VIDEO */
+.vid-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px;margin-top:52px}
+.vid-ph{background:#1a0a0c;border-radius:16px;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:2px solid rgba(186,37,54,.2);transition:border-color .2s,transform .2s var(--ease)}
+.vid-ph:hover{border-color:var(--red);transform:scale(1.02)}
+.vid-play{width:54px;height:54px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 22px rgba(186,37,54,.45);transition:transform .2s var(--ease)}
+.vid-ph:hover .vid-play{transform:scale(1.12)}
+.vid-ph p{color:rgba(255,255,255,.55);font-size:12px;text-align:center;padding:0 14px}
+.vid-ph code{color:rgba(255,255,255,.28);font-size:10px}
+.vid-wrap{border-radius:16px;overflow:hidden;aspect-ratio:16/9}
+.vid-wrap iframe{width:100%;height:100%;border:none}
+
+/* TIKTOK SECTION */
+.tiktok-hero{background:var(--dark);border-radius:24px;padding:40px 36px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;margin-bottom:40px}
+.tiktok-logo{font-size:4rem;flex-shrink:0;width:88px;height:88px;background:linear-gradient(135deg,#010101,#1a1a1a);border-radius:20px;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.1)}
+.tiktok-hero-text h3{font-family:var(--font-d);font-size:clamp(20px,2.5vw,30px);font-weight:900;color:#fff;margin-bottom:8px}
+.tiktok-hero-text p{font-size:14px;color:rgba(255,255,255,.72);line-height:1.65;max-width:560px}
+.tiktok-handle{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:8px 16px;border-radius:30px;font-size:13px;font-weight:700;margin-top:14px;transition:background .2s}
+.tiktok-handle:hover{background:rgba(255,255,255,.18)}
+.vid-ideas{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:40px}
+.vid-idea{background:#fff;border-radius:18px;border:2px solid var(--red-l);overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s}
+.vid-idea:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(186,37,54,.11)}
+.vid-idea-top{background:var(--red);padding:20px 22px;display:flex;align-items:center;gap:12px}
+.vid-idea-num{font-family:var(--font-d);font-size:28px;font-weight:900;color:rgba(255,255,255,.3)}
+.vid-idea-top h3{font-family:var(--font-d);font-size:16px;font-weight:800;color:#fff}
+.vid-idea-body{padding:18px 22px}
+.vid-idea-body p{font-size:13px;line-height:1.7;color:var(--mid);margin-bottom:12px}
+.vid-script{background:var(--red-l);border-radius:10px;padding:12px 14px}
+.vid-script strong{display:block;font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.vid-script p{font-size:12px;color:var(--mid);font-style:italic;margin:0}
+.tiktok-tips{background:var(--dark);border-radius:18px;padding:28px 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-bottom:40px}
+.tip-item strong{display:block;color:#fff;font-size:14px;font-weight:800;margin-bottom:6px}
+.tip-item span{font-size:13px;color:rgba(255,255,255,.7);line-height:1.55}
+.hashtag-cloud{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.hashtag{background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.15);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700}
+
+/* MITMACHEN */
+.contact-only{max-width:680px;margin:0 auto}
+.form-box{background:rgba(255,255,255,.09);border:2px solid rgba(255,255,255,.14);border-radius:22px;padding:clamp(22px,4vw,38px)}
+.form-box h3{color:#fff;font-family:var(--font-d);font-size:clamp(19px,2vw,24px);font-weight:800;margin-bottom:5px}
+.form-note{color:rgba(255,255,255,.5);font-size:12px;margin-bottom:22px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f-grp{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.f-grp label{font-size:11px;font-weight:700;color:rgba(255,255,255,.65);letter-spacing:.07em;text-transform:uppercase}
+.f-grp input,.f-grp select,.f-grp textarea{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.13);border-radius:9px;padding:10px 13px;color:#fff;font-family:var(--font-b);font-size:13px;outline:none;resize:vertical;transition:border-color .2s,background .2s}
+.f-grp input::placeholder,.f-grp textarea::placeholder{color:rgba(255,255,255,.3)}
+.f-grp input:focus,.f-grp select:focus,.f-grp textarea:focus{border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.15)}
+.f-grp select option{background:var(--dark);color:#fff}
+.f-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:4px}
+.f-priv{font-size:11px;color:rgba(255,255,255,.38);flex:1}
+.btn-submit{background:#fff;color:var(--red);border:none;padding:12px 26px;border-radius:28px;font-size:13px;font-weight:800;transition:background .2s,transform .2s var(--ease)}
+.btn-submit:hover{background:#ffe8ea;transform:scale(1.05)}
+.btn-submit:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.f-msg{padding:12px 15px;border-radius:9px;font-size:13px;font-weight:600;margin-top:12px;animation:fadeUp .3s ease}
+.f-msg.ok{background:rgba(74,222,128,.14);color:#86efac;border:1px solid rgba(74,222,128,.27)}
+.f-msg.err{background:rgba(248,113,113,.1);color:#fca5a5;border:1px solid rgba(248,113,113,.27)}
+
+/* TEAM */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px;margin-bottom:52px}
+.team-card{background:#fff;border-radius:18px;padding:26px 22px;border:2px solid var(--red-l);text-align:center;box-shadow:0 2px 14px rgba(186,37,54,.05);transition:transform .25s var(--ease),box-shadow .25s}
+.team-card:hover{transform:translateY(-6px);box-shadow:0 14px 34px rgba(186,37,54,.13)}
+.t-av{width:76px;height:76px;border-radius:50%;background:var(--red-l);border:3px solid var(--red);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;overflow:hidden}
+.t-av img{width:100%;height:100%;object-fit:cover}
+.team-card h3{font-family:var(--font-d);font-size:19px;font-weight:800;margin-bottom:4px}
+.team-card .role{font-size:12px;color:var(--red);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:9px}
+.team-card p{font-size:13px;color:var(--mid);line-height:1.6}
+
+/* ACCORDION */
+.acc{display:flex;flex-direction:column;gap:9px;max-width:800px}
+.acc-item{background:#fff;border-radius:14px;border:2px solid var(--red-l);overflow:hidden;transition:box-shadow .2s}
+.acc-item.open{box-shadow:0 4px 22px rgba(186,37,54,.09)}
+.acc-trg{width:100%;background:none;border:none;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;text-align:left;cursor:pointer;transition:background .2s}
+.acc-trg:hover{background:var(--red-l)}
+.acc-trg h4{font-size:15px;font-weight:700;color:var(--dark)}
+.acc-ico{width:26px;height:26px;border-radius:50%;background:var(--red-l);color:var(--red);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px;transition:transform .3s var(--ease),background .2s;font-weight:900}
+.acc-item.open .acc-ico{transform:rotate(45deg);background:var(--red);color:#fff}
+.acc-body{overflow:hidden;transition:max-height .4s cubic-bezier(.4,.2,.2,1);max-height:0;padding:0 22px}
+.acc-item.open .acc-body{padding:0 22px 18px}
+.acc-body p{font-size:14px;color:var(--mid);line-height:1.75}
+
+/* SOURCES */
+.sources{background:var(--red-l);border-radius:18px;padding:26px 28px;margin-top:36px;max-width:800px}
+.sources h3{font-size:16px;font-weight:800;color:var(--red);margin-bottom:14px}
+.sources ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.sources li{font-size:13px;color:var(--mid);padding-left:16px;position:relative;line-height:1.55}
+.sources li::before{content:'';position:absolute;left:0;color:var(--red);font-weight:900}
+.sources a{color:var(--red);text-decoration:underline}
+.image-source{margin-top:8px;font-size:12px;line-height:1.5;color:var(--mid)}
+
+/* FOOTER */
+.footer{background:var(--dark);padding:44px clamp(20px,5vw,80px)}
+.footer-in{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center}
+.footer-logo img{height:40px;opacity:.55;filter:brightness(10)}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;justify-content:center}
+.footer-links a{font-size:12px;color:rgba(255,255,255,.4);font-weight:700;transition:color .2s;text-transform:uppercase;letter-spacing:.06em}
+.footer-links a:hover{color:rgba(255,255,255,.82)}
+.footer-copy{font-size:11px;color:rgba(255,255,255,.2)}
+
+.img-ph{background:var(--red-l);border:2px dashed rgba(186,37,54,.28);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:rgba(186,37,54,.5);font-size:12px;text-align:center;padding:20px 14px}
+.img-ph .pico{font-size:1.9rem}
+
+@media(max-width:768px){
+.two-col,.stepper,.f-row{grid-template-columns:1fr}
+.sdg-box{grid-template-columns:1fr}
+.nav-links{display:none}
+.hl-strip{grid-template-columns:1fr}
+.tiktok-hero{flex-direction:column}
+}
+</style>
+
 </head>
 <body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
 
+// ══════════ HOOKS ══════════
+function useReveal() {
+useEffect(() => {
+const obs = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); }), { threshold: 0.08 });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+return () => obs.disconnect();
+}, []);
+}
+function useScrollProgress() {
+useEffect(() => {
+const bar = document.getElementById('prog');
+const fn = () => { const m = document.documentElement.scrollHeight - window.innerHeight; if(bar) bar.style.width = (window.scrollY/m*100)+'%'; };
+window.addEventListener('scroll', fn);
+return () => window.removeEventListener('scroll', fn);
+}, []);
+}
+function useActive(ids) {
+const [a, setA] = useState('');
+useEffect(() => {
+const fn = () => { let c=''; ids.forEach(id => { const el=document.getElementById(id); if(el&&window.scrollY>=el.offsetTop-220) c=id; }); setA(c); };
+window.addEventListener('scroll', fn); fn();
+return () => window.removeEventListener('scroll', fn);
+}, []);
+return a;
+}
+function useTypewriter(words) {
+const [text, setText] = useState('');
+const s = useRef({ wi:0, ci:0, del:false });
+useEffect(() => {
+let t;
+const tick = () => {
+const { wi, ci, del } = s.current;
+const w = words[wi % words.length];
+if(!del) { const n=ci+1; setText(w.slice(0,n)); if(n>=w.length){s.current={wi,ci:n,del:true};t=setTimeout(tick,1000);}else{s.current={wi,ci:n,del:false};t=setTimeout(tick,100);} }
+else { const n=ci-1; setText(w.slice(0,n)); if(n===0){s.current={wi:wi+1,ci:0,del:false};t=setTimeout(tick,320);}else{s.current={wi,ci:n,del:true};t=setTimeout(tick,60);} }
+};
+tick();
+return () => clearTimeout(t);
+}, [words]);
+return text;
+}
+function useCounter(target, trigger) {
+const [v, setV] = useState(0);
+const done = useRef(false);
+useEffect(() => {
+if(!trigger||done.current) return;
+done.current = true;
+const dur=1800, start=performance.now();
+const f = now => { const p=Math.min((now-start)/dur,1), e=1-Math.pow(1-p,4); setV(Math.floor(e*target)); if(p<1) requestAnimationFrame(f); else setV(target); };
+requestAnimationFrame(f);
+}, [trigger]);
+return v;
+}
 
+// ══════════ CANVAS ══════════
+function HeroCanvas() {
+const ref = useRef();
+useEffect(() => {
+const cv = ref.current, ctx = cv.getContext('2d');
+let W, H, ps=[], raf;
+const resize = () => { W=cv.width=cv.offsetWidth; H=cv.height=cv.offsetHeight; };
+window.addEventListener('resize', resize); resize();
+class P { constructor(y){ this.reset(); if(y!==undefined) this.y=y; }
+reset(){ this.x=Math.random()*W; this.y=H+10; this.vx=(Math.random()-.5)*.4; this.vy=-(Math.random()*.65+.25); this.r=Math.random()*2.2+.4; this.a=Math.random()*.5+.08; this.c=Math.random()>.5?'#ba2536':'#fff'; }
+update(){ this.x+=this.vx; this.y+=this.vy; if(this.y<-10) this.reset(); }
+draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle=this.c; ctx.globalAlpha=this.a; ctx.fill(); }
+}
+for(let i=0;i<90;i++) ps.push(new P(Math.random()*H));
+const animate = () => { ctx.clearRect(0,0,W,H); ctx.globalAlpha=1; ps.forEach(p=>{p.update();p.draw();}); raf=requestAnimationFrame(animate); };
+animate();
+return () => { cancelAnimationFrame(raf); window.removeEventListener('resize',resize); };
+}, []);
+return <canvas ref={ref} id="hc"/>;
+}
 
-    <nav class="navbar">
-        <a href="#hero" class="logo-link">
-            <img src="Bilder/logo copy.png" alt="Sponsor a Smile Logo" class="logo-img">
-        </a>
-        
-        <ul class="menu">
-            <li><a href="#bildung" data-de="Bildung" data-en="Education">Bildung</a></li>
-            <li><a href="#stimmen" data-de="Stimmen" data-en="Voices">Stimmen</a></li>
-            <li><a href="#wirkung" data-de="Wirkung" data-en="Impact">Wirkung</a></li>
-            <li><a href="#ueber-uns" data-de="Über uns" data-en="About us">Über uns</a></li>
-        </ul>
+// ══════════ COUNTER ══════════
+function StatBlk({ target, unit, label, trigger }) {
+const v = useCounter(target, trigger);
+return <div className="stat-blk"><div><span className="n">{v}</span><span className="u">{unit}</span></div><span className="lbl">{label}</span></div>;
+}
+function StatsStrip({ items }) {
+const ref = useRef();
+const [t, setT] = useState(false);
+useEffect(() => {
+if(!ref.current) return;
+const obs = new IntersectionObserver(([e])=>{ if(e.isIntersecting) setT(true); },{threshold:.3});
+obs.observe(ref.current); return ()=>obs.disconnect();
+},[]);
+return (
+<div className="stats" ref={ref}>
+{items.map((item, index) => (
+<React.Fragment key={item.label}>
+<StatBlk target={item.target} unit={item.unit} label={item.label} trigger={t}/>
+{index < items.length - 1 && <div style={{width:1,background:'rgba(255,255,255,.15)',margin:'20px 0'}}/>}
+</React.Fragment>
+))}
+</div>
+);
+}
 
+// ══════════ QUIZ ══════════
+function Quiz({ content }) {
+const [qi, setQi] = useState(0);
+const [score, setScore] = useState(0);
+const [sel, setSel] = useState(null);
+const [done, setDone] = useState(false);
+const questions = content.questions;
+const reset = () => { setQi(0); setScore(0); setSel(null); setDone(false); };
+const pick = i => { if(sel!==null) return; setSel(i); if(i===questions[qi].c) setScore(s=>s+1); };
+const next = () => { if(qi+1>=questions.length) setDone(true); else { setQi(q=>q+1); setSel(null); } };
+if(done) {
+const idx=Math.min(score,3);
+return <div className="quiz-box"><div className="q-result"><div className="q-score">{score}/{questions.length}</div><div className="q-slbl">{content.correctAnswersLabel}</div><div className="q-rmsg">{content.resultMessages[idx]}</div><p className="q-rtxt">{content.resultTexts[idx]}</p><button className="q-retry" onClick={reset}>{content.retryLabel}</button></div></div>;
+}
+const q = questions[qi];
+return (
+<div className="quiz-box">
+<div className="qprog-wrap">
+<div className="qprog-lbl"><span>{content.questionLabel} {qi+1} {content.ofLabel} {questions.length}</span><span>{score} {content.correctLabel}</span></div>
+<div className="qprog-track"><div className="qprog-fill" style={{width:`${qi/questions.length*100}%`}}/></div>
+</div>
+<div className="q-text" key={qi}>{q.q}</div>
+<div className="q-opts">
+{q.opts.map((o,i) => {
+let cls='q-opt';
+if(sel!==null){ if(i===q.c) cls+=' correct'; else if(i===sel) cls+=' wrong'; }
+return <button key={i} className={cls} onClick={()=>pick(i)} disabled={sel!==null}>{o}</button>;
+})}
+</div>
+{sel!==null && <div className={`q-fb ${sel===q.c?'ok':'nope'}`}>{sel===q.c?`${content.correctFeedbackPrefix} ${q.fb}`:`${content.wrongFeedbackPrefix} ${content.rightAnswerLabel} "${q.opts[q.c]}" - ${q.fb}`}</div>}
+{sel!==null && <button className="q-next" onClick={next}>{qi+1<questions.length?content.nextLabel:content.showResultLabel}</button>}
+</div>
+);
+}
 
-        <div class="lang-toggle">
-            <span class="lang active" data-lang="de">DE</span>
-            <span class="lang-sep">|</span>
-            <span class="lang" data-lang="en">EN</span>
+// ══════════ CAROUSEL ══════════
+function Carousel({ quotes, prevLabel, nextLabel }) {
+const [idx, setIdx] = useState(0);
+const n = quotes.length;
+const go = d => setIdx(i=>(i+d+n)%n);
+useEffect(() => { const t=setInterval(()=>go(1),5200); return ()=>clearInterval(t); }, []);
+return (
+<div style={{maxWidth:700,margin:'0 auto'}}>
+<div className="car-outer"><div className="car-track" style={{transform:`translateX(-${idx*100}%)`}}>
+{quotes.map((q,i)=>(
+<div key={i} className="car-slide"><div className="quote-card">
+<p className="q-txt">{q.text}</p>
+<div className="q-auth"><div className="q-av">{q.ico}</div><div><strong>{q.name}</strong><span>{q.role}</span></div></div>
+</div></div>
+))}
+</div></div>
+<div className="car-ctrl">
+<button className="car-btn" onClick={()=>go(-1)} aria-label={prevLabel}>‹</button>
+<div className="car-dots">{quotes.map((_,i)=><button key={i} className={`car-dot${i===idx?' on':''}`} onClick={()=>setIdx(i)}/>)}</div>
+<button className="car-btn" onClick={()=>go(1)} aria-label={nextLabel}>›</button>
+</div>
+</div>
+);
+}
+
+// ══════════ FLIP CARD ══════════
+function FlipCard({data}) {
+const [f, setF] = useState(false);
+return (
+<div className={`flip-card${f?' flipped':''}`} onClick={()=>setF(x=>!x)}>
+<div className="flip-inner">
+<div className="flip-f"><div className="flip-ico">{data.icon}</div><h3>{data.h}</h3><span className="hint">↻ Tippe zum Umdrehen</span></div>
+<div className="flip-b"><h3>{data.h}</h3><p>{data.text}</p><div className="flip-ex">{data.ex}</div></div>
+</div>
+</div>
+);
+}
+
+// ══════════ STEPPER ══════════
+function Stepper({ steps, nextLabel, restartLabel }) {
+const [idx, setIdx] = useState(0);
+const s = steps[idx];
+return (
+<div className="stepper">
+<nav className="step-nav">
+{steps.map((st,i)=>(
+<button key={i} className={`snav-btn${i===idx?' on':''}`} onClick={()=>setIdx(i)}>
+<div className="snav-num">{st.num}</div>
+<span className="snav-lbl">{st.nav}</span>
+</button>
+))}
+</nav>
+<div key={idx} className="step-card">
+<div><div className="step-bnum">{s.num}</div><h3>{s.icon} {s.h}</h3><p>{s.text}</p></div>
+<div className="step-btm">
+<span className="step-tag">{s.tag}</span>
+<button className="step-next" onClick={()=>setIdx((idx+1)%steps.length)}>{idx<steps.length-1?nextLabel:restartLabel}</button>
+</div>
+</div>
+</div>
+);
+}
+
+// ══════════ ACCORDION ══════════
+function AccItem({q,a}) {
+const [o, setO] = useState(false);
+const ref = useRef();
+useEffect(() => { if(ref.current) ref.current.style.maxHeight = o ? ref.current.scrollHeight+'px' : '0'; }, [o]);
+return (
+<div className={`acc-item${o?' open':''}`}>
+<button className="acc-trg" onClick={()=>setO(x=>!x)}><h4>{q}</h4><span className="acc-ico">+</span></button>
+<div className="acc-body" ref={ref}><p>{a}</p></div>
+</div>
+);
+}
+
+// ══════════ CONTACT FORM ══════════
+function ContactForm({ content }) {
+const [status, setStatus] = useState('idle');
+const [v, setV] = useState({name:'',email:'',schule:'',betreff:'',msg:''});
+const set = k => e => setV(x=>({...x,[k]:e.target.value}));
+const submit = async e => {
+e.preventDefault(); setStatus('sending');
+try {
+const res = await fetch('https://formspree.io/f/xgonlllv',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({name:v.name,email:v.email,schule:v.schule,betreff:v.betreff,message:v.msg})});
+if(res.ok) setStatus('ok'); else setStatus('err');
+} catch { setStatus('err'); }
+};
+if(status==='ok') return <div className="form-box"><h3>{content.heading}</h3><div className="f-msg ok" style={{marginTop:20}}>{content.successMessage}</div></div>;
+return (
+<div className="form-box">
+<h3>{content.heading}</h3>
+<p className="form-note">{content.note}</p>
+<form onSubmit={submit}>
+<div className="f-row">
+<div className="f-grp"><label>{content.nameLabel}</label><input type="text" value={v.name} onChange={set('name')} placeholder={content.namePlaceholder} required/></div>
+<div className="f-grp"><label>{content.emailLabel}</label><input type="email" value={v.email} onChange={set('email')} placeholder={content.emailPlaceholder} required/></div>
+</div>
+<div className="f-grp"><label>{content.schoolLabel}</label><input type="text" value={v.schule} onChange={set('schule')} placeholder={content.schoolPlaceholder}/></div>
+<div className="f-grp"><label>{content.subjectLabel}</label>
+<select value={v.betreff} onChange={set('betreff')}>
+{content.subjectOptions.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
+</select>
+</div>
+<div className="f-grp"><label>{content.messageLabel}</label><textarea rows={4} value={v.msg} onChange={set('msg')} placeholder={content.messagePlaceholder} required/></div>
+<div className="f-foot">
+<span className="f-priv">{content.privacy}</span>
+<button className="btn-submit" type="submit" disabled={status==='sending'}>{status==='sending'?content.sendingLabel:content.submitLabel}</button>
+</div>
+{status==='err' && <div className="f-msg err">{content.errorMessage}</div>}
+</form>
+</div>
+);
+}
+
+// ══════════ TIKTOK SECTION ══════════
+function TikTokSection({ content }) {
+return (
+<section id="tiktok" className="sec bg-cream">
+<div className="sec-in">
+<div className="tag rv">{content.tag}</div>
+<h2 className="sec-h rv">{content.heading}</h2>
+<p className="sec-lead rv">{content.lead}</p>
+<div className="tiktok-hero rv">
+<div className="tiktok-logo">🎵</div>
+<div className="tiktok-hero-text">
+<h3>{content.channelHeading}</h3>
+<p>{content.channelText}</p>
+<a className="tiktok-handle" href="https://tiktok.com/@sponsorasmile" target="_blank">
+🎵 @sponsorasmile.de
+</a>
+</div>
+</div>
+<div className="rv" style={{marginBottom:20}}>
+  <img src="Bilder/College Students Looking at a Cellphone.jpg" alt="College students looking at a cellphone" style={{width:'100%',borderRadius:18,objectFit:'cover',maxHeight:360}}/>
+  <p className="image-source">{content.imageSource}</p>
+</div>
+<div className="hl-strip rv" style={{marginTop:0}}>
+{content.highlights.map(item => <div key={item.title} className="hl-pt"><strong>{item.title}</strong><span>{item.text}</span></div>)}
+</div>
+</div>
+</section>
+);
+}
+
+const COPY = {
+de: {
+metaTitle:'Sponsor a Smile - Bildung für alle',
+langSwitch:{de:'DE',en:'EN'},
+navLabels:['Das Problem','Die Hürden','Quiz','Stimmen','TikTok','Projekttage','Mitmachen','Über uns'],
+hero:{badge:'UN Nachhaltigkeitsziel',headingPrefix:'Bildung ist',subtitle:'Mit unserem Projekt "Sponsor a Smile" wollen wir zeigen, dass Schüler auch selbst etwas verändern können. Wir verbinden Klassen in Deutschland mit Kindern weltweit, die keinen Zugang zu guter Bildung haben - durch gesammeltes Schulmaterial, Austausch und echte Zusammenarbeit.',primaryCta:'Zum Problem',secondaryCta:'Mitmachen',scroll:'Scroll',typewriter:['ein Menschenrecht.','der Weg aus der Armut.','die Zukunft.','für alle da.']},
+stats:[
+{target:250,unit:' Mio.',label:'Kinder ohne Schule weltweit'},
+{target:64,unit:'%',label:'davon in Subsahara-Afrika'},
+{target:1,unit:' €',label:'= 1 Monat Schulmaterial'},
+{target:160,unit:' Mio.',label:'Kinder in Kinderarbeit statt Schule'}
+],
+problem:{tag:'🎯 UN-Ziel 4',heading:'Das Problem',lead:'Für uns ist Schule selbstverständlich. Aber weltweit können etwa 250 Millionen Kinder nicht zur Schule gehen. Gründe dafür sind Armut, fehlende Schulen, Kriege oder Diskriminierung. Genau hier setzt das Nachhaltigkeitsziel 4 der Vereinten Nationen an.',imageCaptions:['Viele Kinder haben Motivation zu lernen, aber nicht dieselben Chancen auf Bildung.','Armut und fehlende Infrastruktur machen regelmäßigen Schulbesuch in vielen Regionen schwierig.'],tabs:['Was ist SDG 4?','🌍 Globale Lage','🇩🇪 In Deutschland'],sdgHeading:'Hochwertige Bildung - Was fordert die UN?',sdgText:'2015 haben sich fast alle Länder der Welt auf 17 Nachhaltigkeitsziele geeinigt. Diese Ziele sollen helfen, Probleme wie Armut, Ungleichheit und Klimawandel zu lösen. Ziel Nummer 4 beschäftigt sich mit Bildung. Die Idee dahinter ist, dass jeder Mensch - egal wo er geboren wurde - die Chance auf gute Bildung haben soll.',sdgGoals:['Kostenlose Grundschulbildung für alle Kinder','Gleicher Zugang für Mädchen und Jungen','Zugang zu Berufsausbildung und Hochschulen','Ausreichend Lehrer und Schulgebäude'],globalCards:[{icon:'🌍',heading:'Zahlen, die erschrecken',text:'Fast 250 Millionen Kinder gehen weltweit nicht zur Schule - besonders in Teilen Afrikas, Südostasiens und im Nahen Osten. Dort fehlen Schulgebäude, ausgebildete Lehrkräfte und einfachste Materialien.',pills:[{title:'250 Mio.',text:'Kinder ohne Schule'},{title:'64%',text:'in Subsahara-Afrika'}]},{icon:'👧',heading:'Mädchen besonders betroffen',text:'In vielen Regionen dürfen Mädchen gar nicht erst zur Schule gehen. Kulturelle Normen, frühe Heirat oder die Pflicht, zu Hause zu helfen, halten sie fern. Dabei ist Bildung für Mädchen ein besonders wirksamer Weg, ganze Gemeinschaften aus der Armut zu holen.'}],germanyCards:[{icon:'🇩🇪',heading:'Schulpflicht - aber nicht gleich',text:'In Deutschland ist Schulpflicht, aber in kaum einem anderen OECD-Land hängt der Bildungserfolg so stark von der sozialen Herkunft ab. Kinder aus armen Familien haben statistisch viel schlechtere Chancen auf einen Gymnasialabschluss.',pills:[{title:'1 von 3',text:'arme Kinder auf Gymnasium'}]},{icon:'💻',heading:'Digitale Spaltung',text:'Nicht jede Schule hat genug Tablets oder WLAN. Kinder in ärmeren Stadtteilen haben oft weniger digitale Möglichkeiten. Die Corona-Pandemie hat das besonders deutlich gemacht.',pills:[{title:'~50.000',text:'Schüler pro Jahr ohne Abschluss'}]}]},
+hurdles:{tag:'🚧 Warum ist es so schwer?',heading:'Die Hürden',lead:'Das Problem liegt nicht daran, dass es keine Lösungen gibt - sondern dass viele Akteure gleichzeitig handeln müssten.',hint:'Klicke die Karten um!'},
+flips:[
+{ icon:'🏛️', h:'Politik', text:'Viele Regierungen ärmerer Länder haben kein Geld für Bildung - andere geben es aus, aber Korruption verhindert, dass es ankommt. Reiche Länder geben Entwicklungshilfe, aber oft zu wenig gezielt.', ex:'Beispiel: Deutschland gab 2020 erstmals Milliarden für Digitalbildung aus - aber viele Schulen wussten nicht, wie sie Mittel beantragen sollten.' },
+{ icon:'🏢', h:'Wirtschaft', text:'Firmen investieren lieber da, wo es schon Infrastruktur gibt - ein Teufelskreis. Manche Unternehmen profitieren sogar davon, dass Kinder als billige Arbeitskräfte eingesetzt werden.', ex:'Fakt: 160 Mio. Kinder arbeiten weltweit - statt in die Schule zu gehen.' },
+{ icon:'🤝', h:'NGOs', text:'Organisationen wie UNICEF leisten viel - aber sie brauchen Unterstützung von außen. Lokale Gruppen kennen die Probleme vor Ort am besten, haben aber kaum Ressourcen.', ex:'"Bildung ohne Grenzen e.V." ist eine deutsche NGO, mit der Schulen direkt kooperieren können.' },
+{ icon:'👨‍👩‍👧', h:'Familien', text:'Manchmal fehlt das Geld für Schulgebühren, Uniformen oder Hefte. Das ist keine Faulheit - das ist bittere Armut. Bildung ist der Ausweg aus der Armut - aber Armut versperrt ihn.', ex:'Paradox: Bildung ist der Weg aus der Armut - aber Armut hält Kinder von Bildung fern.' }
+],
+quiz:{tag:'🧠 Teste dein Wissen',heading:'SDG4 Quiz',lead:'Wie gut kennst du das Thema? Beantworte 4 Fragen und sieh, wie gut du abschneidest.',questionLabel:'Frage',ofLabel:'von',correctLabel:'richtig',correctAnswersLabel:'Richtige Antworten',retryLabel:'↩ Nochmal versuchen',nextLabel:'Nächste Frage',showResultLabel:'Ergebnis zeigen',correctFeedbackPrefix:'✅',wrongFeedbackPrefix:'❌ Leider falsch.',rightAnswerLabel:'Richtig ist:',resultMessages:['Noch nicht so gut...','Nicht schlecht!','Richtig gut!','Perfekt!'],resultTexts:['Lies dir die Infos auf der Seite nochmal durch - da steckt alles drin!','Du kennst das Thema schon ganz gut. Noch ein bisschen Lesen!','Beeindruckend! Du hast das Thema wirklich verstanden.','Volle Punktzahl! Du könntest selbst eine Präsentation zu SDG 4 halten.'],questions:[{ q:'Wie viele Kinder weltweit gehen nicht zur Schule?', opts:['Ca. 50 Millionen','Ca. 100 Millionen','Ca. 250 Millionen','Ca. 500 Millionen'], c:2, fb:'Ca. 250 Millionen Kinder gehen nicht zur Schule - das entspricht ungefähr drei Mal der Bevölkerung Deutschlands.' },{ q:'Was fordert das UN-Nachhaltigkeitsziel 4 bis 2030?', opts:['Mindestens 50% der Kinder in der Schule','Hochwertige und gleichberechtigte Bildung für alle','Nur Universitätsbildung für alle','Digitale Bildung weltweit'], c:1, fb:'SDG 4 fordert hochwertige, inklusive und chancengerechte Bildung für alle - viel mehr als nur Schulbesuch.' },{ q:'Wie viel kostet Schulmaterial für einen Monat in ärmeren Ländern?', opts:['Ca. 50 €','Ca. 20 €','Ca. 5 €','Manchmal schon ab 1 €'], c:3, fb:'In manchen Ländern reichen 1 bis 2 € für einen Monat Stifte und Hefte. Das zeigt, wie viel kleines Geld bewirken kann.' },{ q:'In welcher Region leben die meisten Kinder ohne Schulzugang?', opts:['Südamerika','Osteuropa','Subsahara-Afrika','Nordamerika'], c:2, fb:'Ca. 64 % aller Kinder ohne Schulzugang leben in Subsahara-Afrika - dort fehlen Schulgebäude, Lehrer und Materialien.' }]},
+voices:{tag:'Was andere sagen',heading:'Stimmen',lead:'Bildungsungerechtigkeit betrifft echte Menschen. Hier sind Stimmen, die zeigen, warum das Thema so wichtig ist.',malalaTitle:'Malala Yousafzai',malalaText:'Malala setzt sich weltweit für das Recht auf Bildung ein, besonders für Mädchen.',unicefTitle:'UNICEF weltweit',unicefText:'UNICEF unterstützt Schulen und Kinder, damit Unterricht auch unter schwierigen Bedingungen möglich ist.',galleryHeading:'Schau selbst:',gallery:[{src:'Bilder/childrenclassrom.avif',lbl:'Schulkinder im Unterricht'},{src:'Bilder/child studying candle poverty school',lbl:'Lernen unter schwierigen Bedingungen'},{src:'Bilder/school classroom students learning 2.avif',lbl:'UNICEF unterstützt Schulen'},{src:'Bilder/College Students Looking at a Cellphone.jpg',lbl:'Jugendliche und Social Media'}],quotes:[{ text:'"Ein Kind, ein Lehrer, ein Buch und ein Stift können die Welt verändern."', name:'Malala Yousafzai', role:'Friedensnobelpreisträgerin, Bildungsaktivistin', ico:'✊' },{ text:'"Bildung ist die mächtigste Waffe, mit der du die Welt verändern kannst."', name:'Nelson Mandela', role:'Ehemaliger Präsident Südafrikas', ico:'✌️' },{ text:'"Der beste Weg aus der Armut ist der Schulweg."', name:'Georg Kraus Stiftung', role:'Leitgedanke der Stiftung', ico:'📚' },{ text:'"Investitionen in Bildung haben die höchste Rendite aller Investitionen."', name:'UNESCO', role:'United Nations Educational, Scientific and Cultural Organization', ico:'📊' }]},
+tiktok:{tag:'Unsere Umsetzung',heading:'Social Media - TikTok',lead:'Ein Teil unseres Projekts ist auch Social Media. Wir haben die Idee, einen TikTok-Account zu starten, auf dem wir über SDG 4 informieren. Viele Jugendliche nutzen TikTok jeden Tag - deshalb kann man dort schnell Aufmerksamkeit für wichtige Themen schaffen.',channelHeading:'Unser TikTok-Kanal',channelText:'Wir würden dort kurze Videos posten, zum Beispiel Fakten über Bildung weltweit, Einblicke in unser Projekt oder Interviews mit Schülern. Ziel ist es, andere Klassen zu inspirieren, auch bei solchen Projekten mitzumachen.',imageSource:'Quelle: Pexels - "College Students Looking at a Cellphone"',highlights:[{title:'🎯 Ziel',text:'Aufmerksamkeit für SDG 4 erzeugen und andere Schulen inspirieren, selbst aktiv zu werden.'},{title:'Format',text:'Kurze Videos auf TikTok - Fakten, Behind-the-Scenes und Updates zu unserem Projekt.'},{title:'Vernetzt',text:'Link zur Website in der Bio - TikTok und Website ergänzen sich gegenseitig.'},{title:'🌍 Reichweite',text:'Jedes geteilte Video kann andere Klassen und Schulen erreichen - Bildung in beide Richtungen.'}]},
+projectDays:{tag:'🏫 Projektidee',heading:'Projekttage an Schulen',lead:'Unser Projekt könnte auch an Projekttagen an Schulen umgesetzt werden. Dabei könnten Klassen sich einen Tag lang mit dem Thema Bildung weltweit beschäftigen und selbst aktiv werden.',cards:[{icon:'🌍',heading:'Station 1: Bildung weltweit',text:'Schüler recherchieren, wie Bildung in verschiedenen Ländern aussieht. Dabei lernen sie, warum viele Kinder nicht zur Schule gehen können.'},{icon:'✏️',heading:'Station 2: Sammelaktion',text:'Die Klassen sammeln Schulmaterial wie Stifte, Hefte oder Taschenrechner, die später an Schulen in anderen Ländern gespendet werden können.'},{icon:'🎥',heading:'Station 3: Social Media',text:'Schüler erstellen kurze Videos oder Posts über SDG 4 und teilen sie auf Plattformen wie TikTok, um mehr Aufmerksamkeit für das Thema zu schaffen.'},{icon:'💬',heading:'Station 4: Austausch',text:'Zum Abschluss könnten Klassen Briefe oder Videos für Partnerschulen vorbereiten und so eine echte Verbindung zu Schülern in anderen Ländern aufbauen.'}]},
+join:{tag:'✊ Werde Teil davon',heading:'Mitmachen',lead:'Ihr wollt, dass Sponsor a Smile an eurer Schule startet? Oder ihr habt Fragen oder Ideen? Schreibt uns direkt.',form:{heading:'Schreib uns',note:'Direkt an unser Team - wir antworten so schnell wir können.',nameLabel:'Name *',namePlaceholder:'z.B. Max Mustermann',emailLabel:'E-Mail *',emailPlaceholder:'deine@email.de',schoolLabel:'Schule (optional)',schoolPlaceholder:'Schulname und Ort',subjectLabel:'Ich möchte...',subjectOptions:[{value:'',label:'Bitte wählen'},{value:'Mit meiner Klasse mitmachen',label:'Mit meiner Klasse mitmachen'},{value:'Material beisteuern',label:'Material beisteuern'},{value:'Mehr Infos',label:'Mehr Infos'},{value:'Sonstiges',label:'Sonstiges'}],messageLabel:'Nachricht *',messagePlaceholder:'Was möchtest du uns mitteilen?',privacy:'* Pflichtfelder. Deine Daten werden nicht weitergegeben.',submitLabel:'Senden ✉',sendingLabel:'Wird gesendet...',successMessage:'✅ Danke! Wir melden uns bald.',errorMessage:'❌ Etwas hat nicht geklappt. Bitte später nochmal versuchen.'}},
+about:{tag:'Wer wir sind',heading:'Über uns',lead:'Wir sind drei Schüler der Klasse 9a und haben Sponsor a Smile als Schulprojekt zum UN-Nachhaltigkeitsziel 4 - Hochwertige Bildung - entwickelt.',team:[{icon:'💻',name:'Nesimi',role:'Website & Design',text:'Nesimi hat die Website gestaltet und programmiert. Er hat sich um das Design, die Struktur und die technische Umsetzung gekümmert.'},{icon:'✍️',name:'Friedrich',role:'Texte & Recherche',text:'Friedrich hat den Großteil der Texte geschrieben und die inhaltliche Recherche zu SDG 4 übernommen.'},{icon:'🎬',name:'Aladin',role:'Video & Social Media',text:'Aladin hat sich um die Videoideen und die Mediengestaltung gekümmert und unterstützt das Projekt besonders im Bereich Social Media.'}],learnedHeading:'Was wir gelernt haben',faq:[{ q:'Warum hat uns das Thema überrascht?', a:'Als wir mit dem Projekt angefangen haben, wussten wir natürlich, dass Bildung wichtig ist - aber die Zahlen haben uns dann doch überrascht. 250 Millionen Kinder ohne Schule? Das ist für uns schwer vorstellbar. Besonders hat uns beschäftigt, wie nah das Thema auch an uns selbst rankommt: Auch in Deutschland ist Bildungsgerechtigkeit kein gelöstes Problem. Kinder aus ärmeren Familien haben statistisch viel schlechtere Chancen - das fanden wir wirklich krass.' },{ q:'Wie ist die Idee zu Sponsor a Smile entstanden?', a:'Am Anfang wollten wir einfach etwas tun - aber dann haben wir gemerkt, dass eine abstrakte Idee nicht reicht. Die Idee mit der Brieffreundschaft kam uns, als wir darüber nachgedacht haben, was uns selbst berühren würde. Nicht einfach etwas hinschicken und nie wissen, was damit passiert - sondern eine echte Verbindung. Ein Foto, ein Brief, ein Name. Das macht den Unterschied.' },{ q:'Was hat das Projekt mit sozialer Gerechtigkeit zu tun?', a:'Soziale Gerechtigkeit und ökologische Weitsicht hängen direkt zusammen: Wer keine Bildung hat, kann keine informierten Entscheidungen für den Klimaschutz treffen. Bildung ist nicht nur gut für den Einzelnen - sie ist gut für den Planeten. Unser Projekt ist damit ein Beitrag zu beidem. Und wir finden: Wenn man als Schüler etwas beitragen kann, sollte man es auch tun.' }]},
+sources:{heading:'Quellen & Bildlizenzen',items:['UNESCO: Education Statistics (https://uis.unesco.org)','UN: Sustainable Development Goal 4 (https://sdgs.un.org/goals/goal4)','UNICEF: Education Programs und Video (https://www.youtube.com/watch?v=pXK0s6JdfPo)','bpb: Bildungsungleichheit in Deutschland (https://www.bpb.de)','Kinder im Klassenzimmer: Unsplash - https://unsplash.com/photos/group-of-toddlers-on-the-school-with-teacher-teaching-FQ1L770x6l8','Lernen bei Kerzenlicht: Help2Kids - https://www.help2kids.org/en/blog/bright-idea/candlelight-studying/','Malala Yousafzai: Foto: Simon Davis / DFID - Wikimedia Commons (CC BY 2.0)','Klassenzimmer mit Zahlenwand: Unsplash - https://unsplash.com/photos/children-in-a-classroom-with-numbers-on-the-wall-5OhSEgbUQwo','Unterricht im Klassenzimmer: Unsplash - https://unsplash.com/photos/woman-in-yellow-shirt-sitting-on-green-plastic-chair-KNWfI_7DhQg','Studierende mit Handy: Pexels - "College Students Looking at a Cellphone"']},
+footerCopy:'© 2026 Sponsor a Smile - Klasse 9a · Projektarbeit zu SDG 4 der UN',
+carouselAria:{prev:'Vorheriges Zitat',next:'Nächstes Zitat'}
+},
+en: {
+metaTitle:'Sponsor a Smile - Education for all',
+langSwitch:{de:'DE',en:'EN'},
+navLabels:['The Problem','Barriers','Quiz','Voices','TikTok','Project Days','Join In','About Us'],
+hero:{badge:'UN Sustainable Goal',headingPrefix:'Education is',subtitle:'With our project "Sponsor a Smile" we want to show that students can create change themselves. We connect classes in Germany with children around the world who do not have access to quality education - through collected school supplies, exchange and real collaboration.',primaryCta:'See the problem',secondaryCta:'Join in',scroll:'Scroll',typewriter:['a human right.','a path out of poverty.','the future.','for everyone.']},
+stats:[
+{target:250,unit:' M',label:'children out of school worldwide'},
+{target:64,unit:'%',label:'of them in Sub-Saharan Africa'},
+{target:1,unit:' €',label:'can fund one month of supplies'},
+{target:160,unit:' M',label:'children in child labor instead of school'}
+],
+problem:{tag:'🎯 UN Goal 4',heading:'The Problem',lead:'For us, school feels normal. But around 250 million children worldwide cannot go to school. Reasons include poverty, missing schools, war and discrimination. This is exactly where Sustainable Development Goal 4 of the United Nations begins.',imageCaptions:['Many children want to learn, but they do not have the same opportunities to get an education.','Poverty and missing infrastructure make regular school attendance difficult in many regions.'],tabs:['What is SDG 4?','🌍 Global situation','🇩🇪 In Germany'],sdgHeading:'Quality education - what does the UN demand?',sdgText:'In 2015, almost every country in the world agreed on 17 Sustainable Development Goals. These goals are meant to address problems such as poverty, inequality and climate change. Goal 4 focuses on education. The idea is simple: every person, no matter where they are born, should have the chance to receive a good education.',sdgGoals:['Free primary education for all children','Equal access for girls and boys','Access to vocational training and universities','Enough teachers and school buildings'],globalCards:[{icon:'🌍',heading:'Numbers that shock',text:'Nearly 250 million children worldwide do not attend school - especially in parts of Africa, Southeast Asia and the Middle East. School buildings, trained teachers and even basic materials are missing there.',pills:[{title:'250 M',text:'children out of school'},{title:'64%',text:'in Sub-Saharan Africa'}]},{icon:'👧',heading:'Girls are especially affected',text:'In many regions, girls are not even allowed to go to school. Cultural norms, early marriage or the duty to help at home keep them away. Yet education for girls is one of the most effective ways to lift whole communities out of poverty.'}],germanyCards:[{icon:'🇩🇪',heading:'Compulsory school - but not equal',text:'Germany has compulsory schooling, but in hardly any other OECD country does educational success depend so strongly on social background. Children from poorer families statistically have much lower chances of graduating from an academic secondary school.',pills:[{title:'1 in 3',text:'low-income children reach academic track'}]},{icon:'💻',heading:'Digital divide',text:'Not every school has enough tablets or stable Wi-Fi. Children in poorer neighborhoods often have fewer digital opportunities. The pandemic made that especially visible.',pills:[{title:'~50,000',text:'students leave school without a diploma each year'}]}]},
+hurdles:{tag:'🚧 Why is it so hard?',heading:'The Barriers',lead:'The problem is not that there are no solutions - the problem is that many actors would need to act at the same time.',hint:'Click the cards to flip them.'},
+flips:[
+{ icon:'🏛️', h:'Politics', text:'Many governments in poorer countries do not have enough money for education - others do spend money, but corruption prevents it from arriving where it should. Wealthier countries provide development aid, but often not in a focused enough way.', ex:'Example: In 2020 Germany invested billions in digital education, but many schools did not know how to apply for the funds.' },
+{ icon:'🏢', h:'Economy', text:'Companies prefer to invest where infrastructure already exists - a vicious cycle. Some businesses even benefit from children being used as cheap labor.', ex:'Fact: 160 million children work worldwide instead of going to school.' },
+{ icon:'🤝', h:'NGOs', text:'Organizations such as UNICEF do a lot - but they need outside support. Local groups understand the problems on the ground best, yet often lack resources.', ex:'"Bildung ohne Grenzen e.V." is one German NGO schools can cooperate with directly.' },
+{ icon:'👨‍👩‍👧', h:'Families', text:'Sometimes there is simply no money for school fees, uniforms or notebooks. That is not laziness - that is poverty. Education is the way out of poverty, but poverty blocks that way.', ex:'Paradox: education is the path out of poverty - but poverty keeps children away from education.' }
+],
+quiz:{tag:'🧠 Test your knowledge',heading:'SDG 4 Quiz',lead:'How well do you know the topic? Answer 4 questions and see how well you do.',questionLabel:'Question',ofLabel:'of',correctLabel:'correct',correctAnswersLabel:'Correct answers',retryLabel:'↩ Try again',nextLabel:'Next question',showResultLabel:'Show result',correctFeedbackPrefix:'✅',wrongFeedbackPrefix:'❌ Not quite.',rightAnswerLabel:'Correct answer:',resultMessages:['Not there yet...','Not bad!','Really good!','Perfect!'],resultTexts:['Read through the information on this page again - everything you need is here.','You already know the topic quite well. A little more reading and you are there.','Impressive! You really understood the topic.','Full score! You could give a presentation on SDG 4 yourself.'],questions:[{ q:'How many children worldwide are not in school?', opts:['About 50 million','About 100 million','About 250 million','About 500 million'], c:2, fb:'About 250 million children are out of school - roughly three times the population of Germany.' },{ q:'What does UN Sustainable Development Goal 4 call for by 2030?', opts:['At least 50% of children in school','High-quality and equal education for all','University education only for everyone','Digital education worldwide'], c:1, fb:'SDG 4 calls for high-quality, inclusive and equitable education for all - much more than simply attending school.' },{ q:'How much can one month of school supplies cost in poorer countries?', opts:['About €50','About €20','About €5','Sometimes as little as €1'], c:3, fb:'In some countries, €1 to €2 is enough for a month of pens and notebooks. It shows how much even a small amount can do.' },{ q:'Which region has the highest share of children without access to school?', opts:['South America','Eastern Europe','Sub-Saharan Africa','North America'], c:2, fb:'About 64% of all children without access to school live in Sub-Saharan Africa - where school buildings, teachers and materials are often missing.' }]},
+voices:{tag:'What others say',heading:'Voices',lead:'Educational inequality affects real people. These voices show why the topic matters so much.',malalaTitle:'Malala Yousafzai',malalaText:'Malala campaigns worldwide for the right to education, especially for girls.',unicefTitle:'UNICEF worldwide',unicefText:'UNICEF supports schools and children so that learning remains possible even under difficult conditions.',galleryHeading:'See for yourself:',gallery:[{src:'Bilder/childrenclassrom.avif',lbl:'Children in class'},{src:'Bilder/child studying candle poverty school',lbl:'Learning under difficult conditions'},{src:'Bilder/school classroom students learning 2.avif',lbl:'UNICEF supports schools'},{src:'Bilder/College Students Looking at a Cellphone.jpg',lbl:'Young people and social media'}],quotes:[{ text:'"One child, one teacher, one book and one pen can change the world."', name:'Malala Yousafzai', role:'Nobel Peace Prize laureate, education activist', ico:'✊' },{ text:'"Education is the most powerful weapon which you can use to change the world."', name:'Nelson Mandela', role:'Former President of South Africa', ico:'✌️' },{ text:'"The best path out of poverty is the road to school."', name:'Georg Kraus Foundation', role:'Guiding idea of the foundation', ico:'📚' },{ text:'"Investment in education yields the highest return of all investments."', name:'UNESCO', role:'United Nations Educational, Scientific and Cultural Organization', ico:'📊' }]},
+tiktok:{tag:'Our approach',heading:'Social Media - TikTok',lead:'Social media is also part of our project. We want to start a TikTok account where we talk about SDG 4. Many young people use TikTok every day - that is why it can quickly create attention for important issues.',channelHeading:'Our TikTok channel',channelText:'We would post short videos there, for example facts about global education, insights into our project or interviews with students. The goal is to inspire other classes to join similar projects.',imageSource:'Source: Pexels - "College Students Looking at a Cellphone"',highlights:[{title:'🎯 Goal',text:'Create attention for SDG 4 and inspire other schools to become active themselves.'},{title:'Format',text:'Short TikTok videos - facts, behind-the-scenes clips and updates about our project.'},{title:'Connected',text:'The website link in the bio connects TikTok and the website as one project.'},{title:'🌍 Reach',text:'Every shared video can reach other classes and schools - education in both directions.'}]},
+projectDays:{tag:'🏫 Project idea',heading:'Project Days at School',lead:'Our project could also be implemented during school project days. Classes could spend a day exploring global education and becoming active themselves.',cards:[{icon:'🌍',heading:'Station 1: Education worldwide',text:'Students research what education looks like in different countries. They learn why many children cannot attend school.'},{icon:'✏️',heading:'Station 2: Collection drive',text:'Classes collect school materials such as pens, notebooks or calculators that can later be donated to schools in other countries.'},{icon:'🎥',heading:'Station 3: Social media',text:'Students create short videos or posts about SDG 4 and share them on platforms such as TikTok to create more attention for the topic.'},{icon:'💬',heading:'Station 4: Exchange',text:'At the end, classes could prepare letters or videos for partner schools and create a real connection with students in other countries.'}]},
+join:{tag:'✊ Become part of it',heading:'Join In',lead:'Do you want Sponsor a Smile to start at your school? Or do you have questions or ideas? Write to us directly.',form:{heading:'Write to us',note:'Contact our team directly - we will reply as soon as we can.',nameLabel:'Name *',namePlaceholder:'e.g. Max Mustermann',emailLabel:'Email *',emailPlaceholder:'your@email.com',schoolLabel:'School (optional)',schoolPlaceholder:'School name and city',subjectLabel:'I would like to...',subjectOptions:[{value:'',label:'Please choose'},{value:'Join with my class',label:'Join with my class'},{value:'Contribute materials',label:'Contribute materials'},{value:'More information',label:'More information'},{value:'Other',label:'Other'}],messageLabel:'Message *',messagePlaceholder:'What would you like to tell us?',privacy:'* Required fields. Your data will not be shared.',submitLabel:'Send ✉',sendingLabel:'Sending...',successMessage:'✅ Thank you! We will get back to you soon.',errorMessage:'❌ Something went wrong. Please try again later.'}},
+about:{tag:'Who we are',heading:'About Us',lead:'We are three students from class 9a and developed Sponsor a Smile as a school project for UN Sustainable Development Goal 4 - Quality Education.',team:[{icon:'💻',name:'Nesimi',role:'Website & Design',text:'Nesimi designed and programmed the website. He handled the design, structure and technical implementation.'},{icon:'✍️',name:'Friedrich',role:'Texts & Research',text:'Friedrich wrote most of the texts and led the research on SDG 4.'},{icon:'🎬',name:'Aladin',role:'Video & Social Media',text:'Aladin focused on video ideas and media design and especially supports the project in the area of social media.'}],learnedHeading:'What we learned',faq:[{ q:'Why did this topic surprise us?', a:'When we started the project, we already knew education was important - but the numbers still surprised us. 250 million children without school? That is hard to imagine. What affected us most was how close the issue is to our own reality: even in Germany, educational justice is not solved. Children from poorer families statistically have much lower chances - and that really struck us.' },{ q:'How did the idea for Sponsor a Smile start?', a:'At first we simply wanted to do something - but then we realized that an abstract idea was not enough. The pen-pal idea came when we thought about what would move us personally. Not just sending something and never knowing what happened to it - but building a real connection. A photo, a letter, a name. That makes the difference.' },{ q:'What does the project have to do with social justice?', a:'Social justice and ecological responsibility are directly connected: anyone without education cannot make informed decisions about climate protection. Education is not only good for individuals - it is good for the planet. Our project contributes to both. And we think: if students can contribute something, they should.' }]},
+sources:{heading:'Sources & Image Licenses',items:['UNESCO: Education Statistics (https://uis.unesco.org)','UN: Sustainable Development Goal 4 (https://sdgs.un.org/goals/goal4)','UNICEF: Education programs and video (https://www.youtube.com/watch?v=pXK0s6JdfPo)','Federal Agency for Civic Education: Educational inequality in Germany (https://www.bpb.de)','Children in the classroom: Unsplash - https://unsplash.com/photos/group-of-toddlers-on-the-school-with-teacher-teaching-FQ1L770x6l8','Studying by candlelight: Help2Kids - https://www.help2kids.org/en/blog/bright-idea/candlelight-studying/','Malala Yousafzai: Photo by Simon Davis / DFID - Wikimedia Commons (CC BY 2.0)','Classroom with number wall: Unsplash - https://unsplash.com/photos/children-in-a-classroom-with-numbers-on-the-wall-5OhSEgbUQwo','Classroom lesson: Unsplash - https://unsplash.com/photos/woman-in-yellow-shirt-sitting-on-green-plastic-chair-KNWfI_7DhQg','Students with phone: Pexels - "College Students Looking at a Cellphone"']},
+footerCopy:'© 2026 Sponsor a Smile - Class 9a · Project work on UN SDG 4',
+carouselAria:{prev:'Previous quote',next:'Next quote'}
+}
+};
+
+// ══════════ APP ══════════
+function App() {
+const SECTIONS = ['problem','huerden','quiz','stimmen','tiktok','projekttage','mitmachen','ueber-uns'];
+const ANCHORS  = ['#problem','#huerden','#quiz','#stimmen','#tiktok','#projekttage','#mitmachen','#ueber-uns'];
+const [lang, setLang] = useState('de');
+const [activeTab, setActiveTab] = useState(0);
+const active = useActive(SECTIONS);
+const copy = COPY[lang];
+const tw = useTypewriter(copy.hero.typewriter);
+useReveal();
+useScrollProgress();
+
+useEffect(() => {
+document.documentElement.lang = lang;
+document.title = copy.metaTitle;
+}, [lang, copy.metaTitle]);
+
+const scroll = a => document.querySelector(a)?.scrollIntoView({behavior:'smooth'});
+
+return (
+<>
+<div id="prog"/>
+  {/* NAV */}
+  <nav className="nav" id="navbar">
+    <a href="#hero" className="nav-logo"><img src="Bilder/logo copy.png" alt="Sponsor a Smile"/></a>
+    <ul className="nav-links">
+      {copy.navLabels.map((n,i)=><li key={i}><a href={ANCHORS[i]} className={active===SECTIONS[i]?'active':''}>{n}</a></li>)}
+    </ul>
+    <div className="lang-toggle">
+      <button type="button" className={`lang-btn${lang==='de'?' on':''}`} onClick={()=>setLang('de')} aria-pressed={lang==='de'}>{copy.langSwitch.de}</button>
+      <span className="sep">|</span>
+      <button type="button" className={`lang-btn${lang==='en'?' on':''}`} onClick={()=>setLang('en')} aria-pressed={lang==='en'}>{copy.langSwitch.en}</button>
+    </div>
+  </nav>
+
+  {/* HERO */}
+  <section id="hero" className="hero">
+    <HeroCanvas/>
+    <div className="hero-body">
+      <div className="hero-badge"><span className="badge-n">4</span>{copy.hero.badge}</div>
+      <h1 className="hero-h1">{copy.hero.headingPrefix}<br/><em><span className="tw-wrap"><span>{tw}</span><span className="cursor"/></span></em></h1>
+      <p className="hero-sub">{copy.hero.subtitle}</p>
+      <div className="hero-btns">
+        <button className="btn-red" onClick={()=>scroll('#problem')}>{copy.hero.primaryCta}</button>
+        <button className="btn-outline" onClick={()=>scroll('#mitmachen')}>{copy.hero.secondaryCta}</button>
+      </div>
+    </div>
+    <div className="scroll-hint">
+      <svg width="14" height="22" viewBox="0 0 14 22" fill="none"><rect x="1" y="1" width="12" height="20" rx="6" stroke="white" strokeWidth="1.5"/><circle cx="7" cy="7" r="2" fill="white"><animate attributeName="cy" values="6;13;6" dur="1.5s" repeatCount="indefinite"/></circle></svg>
+      <span>{copy.hero.scroll}</span>
+    </div>
+  </section>
+
+  <StatsStrip items={copy.stats}/>
+
+  {/* PROBLEM */}
+  <section id="problem" className="sec bg-cream">
+    <div className="sec-in">
+      <div className="tag rv">{copy.problem.tag}</div>
+      <h2 className="sec-h rv">{copy.problem.heading}</h2>
+      <p className="sec-lead rv">{copy.problem.lead}</p>
+      <div className="two-col rv" style={{marginBottom:28}}>
+        <div className="card">
+          <img src="Bilder/childrenclassrom.avif" alt={copy.problem.imageCaptions[0]} style={{width:'100%',borderRadius:12,marginBottom:10,objectFit:'cover',aspectRatio:'16/10'}}/>
+          <p>{copy.problem.imageCaptions[0]}</p>
         </div>
+        <div className="card">
+          <img src="Bilder/child studying candle poverty school" alt={copy.problem.imageCaptions[1]} style={{width:'100%',borderRadius:12,marginBottom:10,objectFit:'cover',aspectRatio:'16/10'}}/>
+          <p>{copy.problem.imageCaptions[1]}</p>
+        </div>
+      </div>
+      <div className="tab-bar rv" id="tabBar">
+        {copy.problem.tabs.map((tb,i)=>(
+          <button key={i} className={`tab-btn${i===activeTab?' on':''}`} onClick={()=>{
+            setActiveTab(i);
+          }}>{tb}</button>
+        ))}
+      </div>
+      <div id="tp-0" className="tab-panel" style={{display:activeTab===0?'block':'none'}}>
+        <div className="sdg-box rv">
+          <div className="sdg-num">4</div>
+          <div className="sdg-txt">
+            <h3>{copy.problem.sdgHeading}</h3>
+            <p>{copy.problem.sdgText}</p>
+            <div className="sdg-goals">
+              {copy.problem.sdgGoals.map((g,i)=><div key={i} className="sdg-goal">{g}</div>)}
+            </div>
+          </div>
+        </div>
+        <div className="rv" style={{marginTop:24}}>
+          <div className="vid-wrap" style={{maxWidth:'100%'}}>
+            <iframe src="https://www.youtube.com/embed/pXK0s6JdfPo" title="UNICEF Education Programs" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+          </div>
+        </div>
+      </div>
+      <div id="tp-1" className="tab-panel" style={{display:activeTab===1?'block':'none'}}>
+        <div className="two-col">
+          <div className="card rv"><div className="card-ico">{copy.problem.globalCards[0].icon}</div><h3>{copy.problem.globalCards[0].heading}</h3><p>{copy.problem.globalCards[0].text}</p><div className="pills">{copy.problem.globalCards[0].pills.map(pill => <div key={pill.title} className="pill">{pill.title}<span>{pill.text}</span></div>)}</div></div>
+          <div className="card rv rv1"><div className="card-ico">{copy.problem.globalCards[1].icon}</div><h3>{copy.problem.globalCards[1].heading}</h3><p>{copy.problem.globalCards[1].text}</p></div>
+        </div>
+      </div>
+      <div id="tp-2" className="tab-panel" style={{display:activeTab===2?'block':'none'}}>
+        <div className="two-col">
+          <div className="card rv"><div className="card-ico">{copy.problem.germanyCards[0].icon}</div><h3>{copy.problem.germanyCards[0].heading}</h3><p>{copy.problem.germanyCards[0].text}</p><div className="pills">{copy.problem.germanyCards[0].pills.map(pill => <div key={pill.title} className="pill">{pill.title}<span>{pill.text}</span></div>)}</div></div>
+          <div className="card rv rv1"><div className="card-ico">{copy.problem.germanyCards[1].icon}</div><h3>{copy.problem.germanyCards[1].heading}</h3><p>{copy.problem.germanyCards[1].text}</p><div className="pills">{copy.problem.germanyCards[1].pills.map(pill => <div key={pill.title} className="pill">{pill.title}<span>{pill.text}</span></div>)}</div></div>
+        </div>
+      </div>
+      <div className="rv" style={{marginTop:36}}>
+        <div className="vid-wrap" style={{maxWidth:'100%'}}>
+          <iframe src="https://www.youtube.com/embed/PdfP_g6MAG0" title="SDG 4 und Bildung weltweit" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* HÜRDEN */}
+  <section id="huerden" className="sec bg-red">
+    <div className="sec-in">
+      <div className="tag lt rv">{copy.hurdles.tag}</div>
+      <h2 className="sec-h wh rv">{copy.hurdles.heading}</h2>
+      <p className="sec-lead wh rv">{copy.hurdles.lead} <strong style={{color:'rgba(255,255,255,.95)'}}>{copy.hurdles.hint}</strong></p>
+      <div className="flip-grid">
+        {copy.flips.map((f,i)=><FlipCard key={i} data={f}/>)}
+      </div>
+    </div>
+  </section>
+
+  {/* QUIZ */}
+  <section id="quiz" className="sec bg-dark">
+    <div className="sec-in">
+      <div className="tag lt rv" style={{display:'flex',justifyContent:'center'}}>{copy.quiz.tag}</div>
+      <h2 className="sec-h wh c rv">{copy.quiz.heading}</h2>
+      <p className="sec-lead wh c rv">{copy.quiz.lead}</p>
+      <div className="rv"><Quiz content={copy.quiz}/></div>
+    </div>
+  </section>
+
+  {/* STIMMEN */}
+  <section id="stimmen" className="sec bg-cream">
+    <div className="sec-in">
+      <div className="tag rv">{copy.voices.tag}</div>
+      <h2 className="sec-h rv">{copy.voices.heading}</h2>
+      <p className="sec-lead rv">{copy.voices.lead}</p>
+      <div className="two-col rv" style={{marginBottom:28}}>
+        <div className="card">
+          <img src="Bilder/Malala_Yousafzai.jpg" alt="Malala Yousafzai" style={{width:'100%',borderRadius:12,marginBottom:10,objectFit:'cover',aspectRatio:'4/3'}}/>
+          <p className="image-source">Bild: Malala Yousafzai - Foto: Simon Davis / DFID - Quelle: Wikimedia Commons (CC BY 2.0)</p>
+          <h3>{copy.voices.malalaTitle}</h3>
+          <p>{copy.voices.malalaText}</p>
+        </div>
+        <div className="card">
+          <img src="Bilder/school classroom students learning 2.avif" alt="UNICEF Schule in Afrika" style={{width:'100%',borderRadius:12,marginBottom:10,objectFit:'cover',aspectRatio:'4/3'}}/>
+          <h3>{copy.voices.unicefTitle}</h3>
+          <p>{copy.voices.unicefText}</p>
+        </div>
+      </div>
+      <div className="rv"><Carousel quotes={copy.voices.quotes} prevLabel={copy.carouselAria.prev} nextLabel={copy.carouselAria.next}/></div>
+      <h3 className="rv" style={{fontFamily:'var(--font-d)',fontSize:'clamp(18px,2.2vw,26px)',fontWeight:700,margin:'52px 0 22px',textAlign:'center',width:'100%'}}>{copy.voices.galleryHeading}</h3>
+      <div className="vid-grid">
+        <div className="rv">
+          <div className="vid-wrap">
+            <iframe src="https://www.youtube.com/embed/PdfP_g6MAG0" title="UNICEF Schulen in Afrika" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+          </div>
+        </div>
+        <div className="rv rv1">
+          <div className="vid-wrap">
+            <iframe src="https://www.youtube.com/embed/pXK0s6JdfPo" title="UNICEF Education Programs" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+          </div>
+        </div>
+        <div className="rv rv2">
+          <div className="vid-ph" style={{padding:0,overflow:'hidden'}}>
+            <img src="Bilder/school classroom students learning.avif" alt="Schulunterricht in Afrika" style={{width:'100%',height:'100%',objectFit:'cover'}}/>
+          </div>
+        </div>
+      </div>
+      <div className="rv" style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))',gap:14,marginTop:40}}>
+        {copy.voices.gallery.map((item,i)=>(
+          <div key={i} className="img-ph" style={{aspectRatio:'4/3',padding:0,overflow:'hidden'}}>
+            <img src={item.src} alt={item.lbl} style={{width:'100%',height:'100%',objectFit:'cover'}}/>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* TIKTOK */}
+  <TikTokSection content={copy.tiktok}/>
+
+  {/* PROJEKTTAGE */}
+  <section id="projekttage" className="sec bg-cream">
+    <div className="sec-in">
+      <div className="tag rv">{copy.projectDays.tag}</div>
+      <h2 className="sec-h rv">{copy.projectDays.heading}</h2>
+
+      <p className="sec-lead rv">{copy.projectDays.lead}</p>
+
+      <div className="two-col">
+        {copy.projectDays.cards.map((card, index) => (
+        <div key={card.heading} className={`card rv${index>0?` rv${index}`:''}`}>
+          <div className="card-ico">{card.icon}</div>
+          <h3>{card.heading}</h3>
+          <p>{card.text}</p>
+        </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* MITMACHEN */}
+  <section id="mitmachen" className="sec bg-red">
+    <div className="sec-in">
+      <div className="tag lt rv">{copy.join.tag}</div>
+      <h2 className="sec-h wh rv">{copy.join.heading}</h2>
+      <p className="sec-lead wh rv">{copy.join.lead}</p>
+      <div className="contact-only rv"><ContactForm content={copy.join.form}/></div>
+    </div>
+  </section>
+
+  {/* ÜBER UNS */}
+  <section id="ueber-uns" className="sec bg-cream">
+    <div className="sec-in">
+      <div className="tag rv">{copy.about.tag}</div>
+      <h2 className="sec-h rv">{copy.about.heading}</h2>
+      <p className="sec-lead rv">{copy.about.lead}</p>
+      <div className="team-grid">
+        {copy.about.team.map((member, index) => (
+        <div key={member.name} className={`team-card rv${index>0?` rv${index}`:''}`}>
+          <div className="t-av">{member.icon}</div>
+          <h3>{member.name}</h3>
+          <div className="role">{member.role}</div>
+          <p>{member.text}</p>
+        </div>
+        ))}
+      </div>
+
+      <h3 className="rv" style={{fontFamily:'var(--font-d)',fontSize:'clamp(19px,2.2vw,26px)',fontWeight:800,marginBottom:20,width:'100%'}}>{copy.about.learnedHeading}</h3>
+      <div className="acc rv">
+        {copy.about.faq.map((item,i)=><AccItem key={i} q={item.q} a={item.a}/>)}
+      </div>
 
 
-    </nav>
+    </div>
+  </section>
 
-    <section id="hero" class="hero">
-        <h1 data-de="Unzählige Kinder weltweit haben keinen Zugang zu Stiften, Büchern oder Schulen.<br>Wir zeigen, wie jeder helfen kann." data-en="Countless children worldwide have no access to pens, books, or schools.<br>We show how everyone can help.">Unzählige Kinder weltweit haben keinen Zugang zu Stiften, Büchern oder Schulen.<br>Wir zeigen, wie jeder helfen kann.</h1>
-    </section>
+  <section className="sec bg-cream">
+    <div className="sec-in">
+      <div className="sources">
+        <h3>{copy.sources.heading}</h3>
+        <ul>
+          {copy.sources.items.map(item => <li key={item}>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
 
-    <section id="bildung" class="section">
-        <h2 data-de="Bildung" data-en="Education">Bildung</h2>
-        <p data-de="Bildung ist der Schlüssel für eine bessere Zukunft. Sie hilft Menschen, Armut zu überwinden, Gleichberechtigung zu fördern und nachhaltige Lösungen für globale Probleme zu entwickeln.
+  {/* FOOTER */}
+  <footer className="footer">
+    <div className="footer-in">
+      <div className="footer-logo"><img src="Bilder/logo copy.png" alt="Sponsor a Smile"/></div>
+      <div className="footer-links">
+        {copy.navLabels.map((l,i)=>(
+          <a key={i} href={ANCHORS[i]}>{l}</a>
+        ))}
+      </div>
+      <p className="footer-copy">{copy.footerCopy}</p>
+    </div>
+  </footer>
+</>
+);
+}
 
-            Doch noch immer haben weltweit Millionen Kinder keinen Zugang zu guter Bildung.
-            
-            👉 Unsere Idee zeigt, wie auch wir hier in Deutschland einen Beitrag leisten können.
-            
-            📚 Bildung
-            Was bedeutet „Hochwertige Bildung&quot;?
-            4
-            
-            Das Nachhaltigkeitsziel 4 der Vereinte Nationen fordert:
-            
-            Kostenlose und gerechte Grund- und Sekundarschulbildung für alle
-            
-            Zugang zu beruflicher Ausbildung
-            
-            Förderung nachhaltiger Entwicklung
-            
-            Gleichberechtigten Zugang für Mädchen und Jungen
-            
-            Globale Situation
-            
-            Millionen Kinder weltweit besuchen keine Schule.
-            
-            In vielen Ländern fehlen Lehrer, Schulgebäude oder Lernmaterialien.
-            
-            Besonders betroffen sind Länder in Afrika und Teilen Asiens.
-            
-            Situation in Deutschland
-            
-            In Deutschland ist Schulbildung kostenlos. Trotzdem gibt es Herausforderungen:
-            
-            Bildungsungleichheit durch soziale Herkunft
-            
-            Digitale Ausstattung nicht überall gleich
-            
-            Unterschiede zwischen Stadt und Land
-            
-            Bildung entscheidet oft über die Zukunftschancen eines Menschen."
-           data-en="Education is the key to a better future. It helps people overcome poverty, promote equality, and develop sustainable solutions for global problems.
+window.addEventListener('scroll', ()=>{ const n=document.getElementById('navbar'); if(n) n.classList.toggle('scrolled', window.scrollY>60); });
+window.addEventListener('load', ()=>{
+if(window.formbutton) window.formbutton('create',{action:'https://formspree.io/f/xgonlllv',title:'Schreib uns!',fields:[{type:'email',label:'E-Mail:',name:'email',required:true,placeholder:'deine@email.de'},{type:'text',label:'Name:',name:'name',placeholder:'Dein Name'},{type:'textarea',label:'Nachricht:',name:'message',placeholder:'Was möchtest du sagen?'},{type:'submit',value:'Senden'}],styles:{title:{backgroundColor:'#ba2536'},button:{backgroundColor:'#ba2536'}}});
+});
 
-            Yet millions of children worldwide still have no access to quality education.
-            
-            👉 Our idea shows how we here in Germany can also make a contribution.
-            
-            📚 Education
-            What does &quot;Quality Education&quot; mean?
-            4
-            
-            The United Nations Sustainable Development Goal 4 calls for:
-            
-            Free and equitable primary and secondary education for all
-            
-            Access to vocational training
-            
-            Promotion of sustainable development
-            
-            Equal access for girls and boys
-            
-            Global Situation
-            
-            Millions of children worldwide do not attend school.
-            
-            Many countries lack teachers, school buildings, or learning materials.
-            
-            Particularly affected are countries in Africa and parts of Asia.
-            
-            Situation in Germany
-            
-            In Germany, school education is free. However, there are challenges:
-            
-            Educational inequality due to social background
-            
-            Digital equipment not equally available everywhere
-            
-            Differences between urban and rural areas
-            
-            Education often determines a person's future opportunities.">Bildung ist der Schlüssel für eine bessere Zukunft. Sie hilft Menschen, Armut zu überwinden, Gleichberechtigung zu fördern und nachhaltige Lösungen für globale Probleme zu entwickeln.
+const ANCHORS = ['#problem','#huerden','#quiz','#stimmen','#tiktok','#projekttage','#mitmachen','#ueber-uns'];
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
 
-            Doch noch immer haben weltweit Millionen Kinder keinen Zugang zu guter Bildung.
-            
-            👉 Unsere Idee zeigt, wie auch wir hier in Deutschland einen Beitrag leisten können.
-            
-            📚 Bildung
-            Was bedeutet „Hochwertige Bildung“?
-            4
-            
-            Das Nachhaltigkeitsziel 4 der Vereinte Nationen fordert:
-            
-            Kostenlose und gerechte Grund- und Sekundarschulbildung für alle
-            
-            Zugang zu beruflicher Ausbildung
-            
-            Förderung nachhaltiger Entwicklung
-            
-            Gleichberechtigten Zugang für Mädchen und Jungen
-            
-            Globale Situation
-            
-            Millionen Kinder weltweit besuchen keine Schule.
-            
-            In vielen Ländern fehlen Lehrer, Schulgebäude oder Lernmaterialien.
-            
-            Besonders betroffen sind Länder in Afrika und Teilen Asiens.
-            
-            Situation in Deutschland
-            
-            In Deutschland ist Schulbildung kostenlos. Trotzdem gibt es Herausforderungen:
-            
-            Bildungsungleichheit durch soziale Herkunft
-            
-            Digitale Ausstattung nicht überall gleich
-            
-            Unterschiede zwischen Stadt und Land
-            
-            Bildung entscheidet oft über die Zukunftschancen eines Menschen.</p>
-
-    </section>
-
-    <section id="stimmen" class="section">
-        <h2 data-de="Stimmen" data-en="Voices">Stimmen</h2>
-        <p data-de="Inhalt kommt noch..." data-en="Content coming soon...">Inhalt kommt noch...</p>
-    </section>
-
-    <section id="wirkung" class="section">
-        <h2 data-de="Wirkung" data-en="Impact">Wirkung</h2>
-        <p data-de="Inhalt kommt noch..." data-en="Content coming soon...">Inhalt kommt noch...</p>
-    </section>
-
-    <section id="ueber-uns" class="section">
-        <h2 data-de="Über uns" data-en="About us">Über uns</h2>
-        <p data-de="Inhalt kommt noch..." data-en="Content coming soon...">Inhalt kommt noch...</p>
-    </section>
-
-    
-
-    <script src="script.js"></script>
 </body>
 </html>
